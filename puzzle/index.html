@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>幼兒拼圖</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 選擇畫面 -->
+  <main id="menu" class="screen">
+    <h1>🧩 小小拼圖</h1>
+
+    <h2>1. 選片數</h2>
+    <div id="sizes" class="sizes"></div>
+
+    <h2>2. 選圖片</h2>
+    <div id="gallery" class="gallery"></div>
+  </main>
+
+  <!-- 遊戲畫面 -->
+  <section id="game" class="screen hidden">
+    <header class="bar">
+      <button id="btnBack" class="btn" aria-label="回選單">🏠</button>
+      <button id="btnHint" class="btn" aria-label="看原圖">👀</button>
+      <button id="btnShuffle" class="btn" aria-label="重新開始">🔄</button>
+      <button id="btnSound" class="btn" aria-label="音效">🔊</button>
+    </header>
+    <div id="stage" class="stage">
+      <div id="board" class="board"></div>
+    </div>
+  </section>
+
+  <!-- 完成 -->
+  <div id="win" class="win hidden">
+    <div class="win-card">
+      <div class="win-title">太棒了！🎉</div>
+      <div id="winPic" class="win-pic"></div>
+      <div class="win-actions">
+        <button id="btnAgain" class="btn big">🔄 再玩一次</button>
+        <button id="btnNext" class="btn big">➡️ 換一張</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="images.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

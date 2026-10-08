@@ -1,0 +1,59 @@
+:root { --bg:#FFF6DD; --ink:#4a3b2a; --pri:#FF8A3D; --pri2:#FFD43B; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin:0; height:100%; background:var(--bg); color:var(--ink);
+  font-family: "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  touch-action: none; user-select: none; -webkit-user-select: none; overflow:hidden; }
+.hidden { display:none !important; }
+.screen { position:fixed; inset:0; }
+
+/* 選單 */
+#menu { overflow-y:auto; padding:16px; text-align:center; touch-action: pan-y; }
+h1 { margin:8px 0; font-size:2.2rem; }
+h2 { margin:18px 0 8px; font-size:1.2rem; }
+.sizes { display:flex; gap:12px; justify-content:center; }
+.size-btn { font-size:1.8rem; font-weight:700; width:96px; height:96px; border-radius:24px;
+  border:4px solid transparent; background:#fff; color:var(--ink); box-shadow:0 4px 0 #e5d6ad; }
+.size-btn small { display:block; font-size:.9rem; font-weight:400; }
+.size-btn.on { background:var(--pri2); border-color:var(--pri); }
+.gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:12px;
+  max-width:760px; margin:0 auto 24px; }
+.thumb { border:0; padding:0; background:#fff; border-radius:20px; overflow:hidden;
+  box-shadow:0 4px 0 #e5d6ad; font-size:1.1rem; color:var(--ink); }
+.thumb img { width:100%; aspect-ratio:1; object-fit:cover; display:block; pointer-events:none; }
+.thumb span { display:block; padding:6px 0 8px; font-weight:700; }
+.thumb:active, .size-btn:active { transform: translateY(3px); box-shadow:none; }
+
+/* 遊戲 */
+.bar { position:absolute; top:0; left:0; right:0; height:64px; display:flex; gap:10px;
+  align-items:center; justify-content:center; z-index:50; }
+.btn { font-size:1.6rem; min-width:52px; height:52px; padding:0 14px; border:0; border-radius:16px;
+  background:#fff; box-shadow:0 3px 0 #e5d6ad; color:var(--ink); }
+.btn.big { font-size:1.3rem; height:60px; background:var(--pri2); }
+.btn:active { transform: translateY(3px); box-shadow:none; }
+.stage { position:absolute; left:0; right:0; top:64px; bottom:0; }
+.board { position:absolute; background:rgba(255,255,255,.55); outline:4px dashed #d6c28a; outline-offset:0;
+  border-radius:12px; overflow:hidden; }
+.board .ghost { position:absolute; inset:0; opacity:.22; background-repeat:no-repeat; transition:opacity .3s; }
+.board.peek .ghost { opacity:1; }
+.board .cell { position:absolute; border:1px dashed rgba(180,150,80,.45); }
+
+.piece { position:absolute; background-repeat:no-repeat; border-radius:6px;
+  box-shadow:0 0 0 3px #fff inset, 0 3px 8px rgba(0,0,0,.28); cursor:grab; z-index:10;
+  transition: left .25s ease, top .25s ease, transform .25s ease, box-shadow .25s; }
+.piece.drag { transition:none; z-index:100; box-shadow:0 0 0 3px #fff inset, 0 12px 22px rgba(0,0,0,.35); cursor:grabbing; }
+.piece.done { z-index:5; box-shadow:none; border-radius:0; cursor:default; pointer-events:none; }
+.piece.pop { animation: pop .35s ease; }
+@keyframes pop { 50% { filter:brightness(1.35); } }
+
+/* 完成 */
+.win { position:fixed; inset:0; z-index:200; background:rgba(255,246,221,.92); display:flex;
+  align-items:center; justify-content:center; touch-action:auto; }
+.win-card { text-align:center; padding:16px; }
+.win-title { font-size:2.4rem; font-weight:800; margin-bottom:10px; animation: bounce 1s infinite; }
+.win-pic { width:min(70vw,50vh); aspect-ratio:1; margin:0 auto 16px; border-radius:20px;
+  background-size:cover; background-position:center; box-shadow:0 8px 24px rgba(0,0,0,.25); }
+.win-actions { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+@keyframes bounce { 50% { transform:translateY(-10px); } }
+.confetti { position:fixed; top:-30px; font-size:2rem; z-index:300; pointer-events:none;
+  animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg); } }
