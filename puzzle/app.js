@@ -62,29 +62,14 @@
       var b = document.createElement('button');
       b.className = 'thumb';
       b.innerHTML = '<img src="' + im.src + '" alt="' + im.name + '"><span>' + im.name + '</span>';
-      b.onclick = function () { openPicker(i); };
+      b.onclick = function () { start(i); };
       gal.appendChild(b);
     });
   }
 
-  // 選好圖片後，再選片數
-  function openPicker(i) {
-    var im = IMAGES[i];
-    $('pickImg').src = im.src; $('pickName').textContent = im.name;
-    toggleRow($('pickSizes'), SIZES.map(function (n) { return [n, n, '片']; }), state.count, function (n) {
-      state.count = n; save('puzzleCount', n);
-      $('picker').classList.add('hidden');
-      start(i);
-    });
-    $('picker').classList.remove('hidden');
-  }
-
   $('btnSettings').onclick = function () { buildSettings(); $('settings').classList.remove('hidden'); };
   $('btnSettingsClose').onclick = function () { $('settings').classList.add('hidden'); };
-  $('btnPickClose').onclick = function () { $('picker').classList.add('hidden'); };
-  ['settings', 'picker'].forEach(function (id) {   // 點空白處關閉
-    $(id).addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });
-  });
+  $('settings').addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });   // 點空白處關閉
 
   /* ---------- 遊戲 ---------- */
   function shuffle(a) {
@@ -92,8 +77,23 @@
     return a;
   }
 
+  function buildGameSizes() {
+    var box = $('gameSizes'); box.innerHTML = '';
+    SIZES.forEach(function (n) {
+      var b = document.createElement('button');
+      b.className = 'gs' + (n === state.count ? ' on' : '');
+      b.textContent = n + '片';
+      b.onclick = function () {
+        if (n === state.count) return;
+        state.count = n; save('puzzleCount', n); start(state.imgIndex);
+      };
+      box.appendChild(b);
+    });
+  }
+
   function start(imgIndex) {
     state.imgIndex = imgIndex;
+    buildGameSizes();
     menu.classList.add('hidden'); game.classList.remove('hidden'); win.classList.add('hidden');
     // 直式螢幕 12 片用 3 欄×4 列，橫式用 4 欄×3 列
     var portrait = stage.clientWidth < stage.clientHeight * 1.1;
