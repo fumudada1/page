@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 128 張）
+/* 圖片清單（每類 16 張、共 144 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -14,7 +14,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'life',    icon: '🏠', name: '日常生活' },
   { id: 'festival',icon: '🎉', name: '節慶慶典' },
   { id: 'learn',   icon: '🔤', name: '學習認知' },
-  { id: 'story',   icon: '🏰', name: '童話故事' }
+  { id: 'story',   icon: '🏰', name: '童話故事' },
+  { id: 'dino',    icon: '🦕', name: '遠古恐龍' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -153,5 +154,22 @@ window.PUZZLE_IMAGES = [
   { id: 'fairy', seq: 125, cat: 'story', name: '小精靈', src: 'images/fairy.svg', credit: '自製插圖 CC0' },
   { id: 'wizard', seq: 126, cat: 'story', name: '巫師', src: 'images/wizard.svg', credit: '自製插圖 CC0' },
   { id: 'frogprince', seq: 127, cat: 'story', name: '青蛙王子', src: 'images/frogprince.svg', credit: '自製插圖 CC0' },
-  { id: 'lamp', seq: 128, cat: 'story', name: '神燈', src: 'images/lamp.svg', credit: '自製插圖 CC0' }
+  { id: 'lamp', seq: 128, cat: 'story', name: '神燈', src: 'images/lamp.svg', credit: '自製插圖 CC0' },
+  /* dino */
+  { id: 'trex', seq: 129, cat: 'dino', name: '暴龍', src: 'images/trex.svg', credit: '自製插圖 CC0' },
+  { id: 'triceratops', seq: 130, cat: 'dino', name: '三角龍', src: 'images/triceratops.svg', credit: '自製插圖 CC0' },
+  { id: 'stegosaurus', seq: 131, cat: 'dino', name: '劍龍', src: 'images/stegosaurus.svg', credit: '自製插圖 CC0' },
+  { id: 'brachiosaurus', seq: 132, cat: 'dino', name: '腕龍', src: 'images/brachiosaurus.svg', credit: '自製插圖 CC0' },
+  { id: 'pterodactyl', seq: 133, cat: 'dino', name: '翼龍', src: 'images/pterodactyl.svg', credit: '自製插圖 CC0' },
+  { id: 'raptor', seq: 134, cat: 'dino', name: '迅猛龍', src: 'images/raptor.svg', credit: '自製插圖 CC0' },
+  { id: 'ankylosaurus', seq: 135, cat: 'dino', name: '甲龍', src: 'images/ankylosaurus.svg', credit: '自製插圖 CC0' },
+  { id: 'parasaurolophus', seq: 136, cat: 'dino', name: '副櫛龍', src: 'images/parasaurolophus.svg', credit: '自製插圖 CC0' },
+  { id: 'plesiosaur', seq: 137, cat: 'dino', name: '蛇頸龍', src: 'images/plesiosaur.svg', credit: '自製插圖 CC0' },
+  { id: 'spinosaurus', seq: 138, cat: 'dino', name: '棘龍', src: 'images/spinosaurus.svg', credit: '自製插圖 CC0' },
+  { id: 'dinoegg', seq: 139, cat: 'dino', name: '恐龍蛋', src: 'images/dinoegg.svg', credit: '自製插圖 CC0' },
+  { id: 'footprint', seq: 140, cat: 'dino', name: '恐龍腳印', src: 'images/footprint.svg', credit: '自製插圖 CC0' },
+  { id: 'fossil', seq: 141, cat: 'dino', name: '化石', src: 'images/fossil.svg', credit: '自製插圖 CC0' },
+  { id: 'volcano', seq: 142, cat: 'dino', name: '火山', src: 'images/volcano.svg', credit: '自製插圖 CC0' },
+  { id: 'meteor', seq: 143, cat: 'dino', name: '隕石', src: 'images/meteor.svg', credit: '自製插圖 CC0' },
+  { id: 'babydino', seq: 144, cat: 'dino', name: '恐龍寶寶', src: 'images/babydino.svg', credit: '自製插圖 CC0' }
 ];
