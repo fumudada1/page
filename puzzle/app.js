@@ -1,15 +1,16 @@
 (function () {
   'use strict';
 
-  var IMAGES = window.PUZZLE_IMAGES;
+  var IMAGES = window.PUZZLE_IMAGES, CATS = window.PUZZLE_CATEGORIES;
   var $ = function (id) { return document.getElementById(id); };
   var menu = $('menu'), game = $('game'), stage = $('stage'), board = $('board'), win = $('win');
 
   // 片數 → [直向或橫向] 的格子配置
   var SIZES = [9, 12, 16];
   var state = { count: 9, imgIndex: 0, cols: 3, rows: 3, pieces: [], c: 0, bx: 0, by: 0,
-                tray: null, t: 1, soundOn: true, solved: 0, jigsaw: true, showBase: true, pad: 0, B: 0 };
+                tray: null, t: 1, soundOn: true, solved: 0, cat: 'all', jigsaw: true, showBase: true, pad: 0, B: 0 };
 
+  try { var sc = localStorage.getItem('puzzleCat'); if (CATS.some(function (c) { return c.id === sc; })) state.cat = sc; } catch (e) {}
   try { state.showBase = localStorage.getItem('puzzleBase') !== 'off'; } catch (e) {}
   try { state.jigsaw = localStorage.getItem('puzzleShape') !== 'square'; } catch (e) {}
   try { var saved = parseInt(localStorage.getItem('puzzleCount'), 10); if (SIZES.indexOf(saved) >= 0) state.count = saved; } catch (e) {}
@@ -56,10 +57,25 @@
     });
   }
 
+  // 目前分類裡的圖片（回傳在 IMAGES 裡的索引）
+  function indexesInCat() {
+    var out = [];
+    IMAGES.forEach(function (im, i) { if (state.cat === 'all' || im.cat === state.cat) out.push(i); });
+    return out;
+  }
+
   function buildMenu() {
-    var gal = $('gallery'); gal.innerHTML = '';
-    IMAGES.forEach(function (im, i) {
+    var cats = $('cats'); cats.innerHTML = '';
+    CATS.forEach(function (c) {
       var b = document.createElement('button');
+      b.className = 'cat-btn' + (c.id === state.cat ? ' on' : '');
+      b.innerHTML = '<span class="ico">' + c.icon + '</span>' + c.name;
+      b.onclick = function () { state.cat = c.id; save('puzzleCat', c.id); buildMenu(); };
+      cats.appendChild(b);
+    });
+    var gal = $('gallery'); gal.innerHTML = '';
+    indexesInCat().forEach(function (i) {
+      var im = IMAGES[i], b = document.createElement('button');
       b.className = 'thumb';
       b.innerHTML = '<img src="' + im.src + '" alt="' + im.name + '"><span>' + im.name + '</span>';
       b.onclick = function () { start(i); };
@@ -289,7 +305,10 @@
   $('btnHint').onclick = function () { board.classList.add('peek'); setTimeout(function () { board.classList.remove('peek'); }, 2000); };
   $('btnSound').onclick = function () { state.soundOn = !state.soundOn; this.textContent = state.soundOn ? '🔊' : '🔇'; };
   $('btnAgain').onclick = function () { start(state.imgIndex); };
-  $('btnNext').onclick = function () { start((state.imgIndex + 1) % IMAGES.length); };
+  $('btnNext').onclick = function () {
+    var list = indexesInCat(), at = list.indexOf(state.imgIndex);
+    start(list.length ? list[(at + 1) % list.length] : (state.imgIndex + 1) % IMAGES.length);
+  };
 
   var rt; window.addEventListener('resize', function () {
     clearTimeout(rt); rt = setTimeout(function () { if (!game.classList.contains('hidden')) layout(false); }, 100);
