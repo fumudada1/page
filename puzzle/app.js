@@ -99,6 +99,9 @@
     var cols = state.cols, rows = state.rows, src = IMAGES[state.imgIndex].src;
     board.innerHTML = '<div class="ghost"></div>';
     board.querySelector('.ghost').style.backgroundImage = 'url(' + src + ')';
+    board.classList.toggle('jig', state.jigsaw);
+    var slots = svgEl('svg', { 'class': 'slots' });
+    board.appendChild(slots);
 
     // 相鄰兩塊共用的邊：+1 = 左(上)邊那塊長出凸塊，-1 = 凹槽
     var tabH = [], tabV = [];
@@ -118,7 +121,9 @@
       svg.appendChild(clip); svg.appendChild(img); svg.appendChild(line);
       stage.appendChild(svg);
 
-      var p = { el: svg, img: img, cpath: cpath, line: line, col: c, row: r, done: false,
+      var slot = svgEl('path', {});
+      if (state.jigsaw) slots.appendChild(slot);
+      var p = { slotPath: slot, el: svg, img: img, cpath: cpath, line: line, col: c, row: r, done: false,
         slot: order[state.pieces.length],
         s: { // 上、右、下、左 四條邊（0 = 外框平邊）
           t: j && r > 0 ? -tabV[r - 1][c] : 0,
@@ -192,6 +197,8 @@
       el.setAttribute('width', B); el.setAttribute('height', B);
       el.style.width = el.style.height = B + 'px';
       p.cpath.setAttribute('d', d); p.line.setAttribute('d', d);
+      p.slotPath.setAttribute('d', piecePath(p, 0, c));
+      p.slotPath.setAttribute('transform', 'translate(' + p.col * c + ' ' + p.row * c + ')');
       p.img.setAttribute('x', pad + ox - p.col * c); p.img.setAttribute('y', pad + oy - p.row * c);
       p.img.setAttribute('width', D); p.img.setAttribute('height', D);
       if (first) el.style.transition = 'none';
