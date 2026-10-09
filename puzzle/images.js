@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 80 張）
+/* 圖片清單（每類 16 張、共 96 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。建議正方形、至少 800x800。
  * 目前使用的是自製插圖（CC0，可自由使用）。 */
@@ -9,7 +9,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'fruit',   icon: '🍎', name: '水果甜點' },
   { id: 'nature',  icon: '🌻', name: '美麗自然' },
   { id: 'vehicle', icon: '🚗', name: '交通工具' },
-  { id: 'life',    icon: '🏠', name: '日常生活' }
+  { id: 'life',    icon: '🏠', name: '日常生活' },
+  { id: 'festival',icon: '🎉', name: '節慶慶典' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -97,5 +98,22 @@ window.PUZZLE_IMAGES = [
   { id: 'ball', cat: 'life', name: '足球', src: 'images/ball.svg', credit: '自製插圖 CC0' },
   { id: 'blocks', cat: 'life', name: '積木', src: 'images/blocks.svg', credit: '自製插圖 CC0' },
   { id: 'gift', cat: 'life', name: '禮物', src: 'images/gift.svg', credit: '自製插圖 CC0' },
-  { id: 'toothbrush', cat: 'life', name: '牙刷', src: 'images/toothbrush.svg', credit: '自製插圖 CC0' }
+  { id: 'toothbrush', cat: 'life', name: '牙刷', src: 'images/toothbrush.svg', credit: '自製插圖 CC0' },
+  /* festival */
+  { id: 'xmastree', cat: 'festival', name: '聖誕樹', src: 'images/xmastree.svg', credit: '自製插圖 CC0' },
+  { id: 'santa', cat: 'festival', name: '聖誕老人', src: 'images/santa.svg', credit: '自製插圖 CC0' },
+  { id: 'snowman', cat: 'festival', name: '雪人', src: 'images/snowman.svg', credit: '自製插圖 CC0' },
+  { id: 'gingerbread', cat: 'festival', name: '薑餅人', src: 'images/gingerbread.svg', credit: '自製插圖 CC0' },
+  { id: 'birthdaycake', cat: 'festival', name: '生日蛋糕', src: 'images/birthdaycake.svg', credit: '自製插圖 CC0' },
+  { id: 'fireworks', cat: 'festival', name: '煙火', src: 'images/fireworks.svg', credit: '自製插圖 CC0' },
+  { id: 'redenvelope', cat: 'festival', name: '紅包', src: 'images/redenvelope.svg', credit: '自製插圖 CC0' },
+  { id: 'lantern', cat: 'festival', name: '燈籠', src: 'images/lantern.svg', credit: '自製插圖 CC0' },
+  { id: 'firecracker', cat: 'festival', name: '鞭炮', src: 'images/firecracker.svg', credit: '自製插圖 CC0' },
+  { id: 'mooncake', cat: 'festival', name: '月餅', src: 'images/mooncake.svg', credit: '自製插圖 CC0' },
+  { id: 'zongzi', cat: 'festival', name: '粽子', src: 'images/zongzi.svg', credit: '自製插圖 CC0' },
+  { id: 'pumpkin', cat: 'festival', name: '南瓜燈', src: 'images/pumpkin.svg', credit: '自製插圖 CC0' },
+  { id: 'ghost', cat: 'festival', name: '幽靈', src: 'images/ghost.svg', credit: '自製插圖 CC0' },
+  { id: 'heart', cat: 'festival', name: '愛心', src: 'images/heart.svg', credit: '自製插圖 CC0' },
+  { id: 'easteregg', cat: 'festival', name: '彩蛋', src: 'images/easteregg.svg', credit: '自製插圖 CC0' },
+  { id: 'partyhat', cat: 'festival', name: '派對帽', src: 'images/partyhat.svg', credit: '自製插圖 CC0' }
 ];
