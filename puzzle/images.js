@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 160 張）
+/* 圖片清單（每類 16 張、共 176 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -16,7 +16,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'learn',   icon: '🔤', name: '學習認知' },
   { id: 'story',   icon: '🏰', name: '童話故事' },
   { id: 'dino',    icon: '🦕', name: '遠古恐龍' },
-  { id: 'ocean',   icon: '🐠', name: '海洋生物' }
+  { id: 'ocean',   icon: '🐠', name: '海洋生物' },
+  { id: 'job',     icon: '👷', name: '職業體驗' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -189,5 +190,22 @@ window.PUZZLE_IMAGES = [
   { id: 'stingray', seq: 157, cat: 'ocean', name: '魟魚', src: 'images/stingray.svg', credit: '自製插圖 CC0' },
   { id: 'coral', seq: 158, cat: 'ocean', name: '珊瑚', src: 'images/coral.svg', credit: '自製插圖 CC0' },
   { id: 'lobster', seq: 159, cat: 'ocean', name: '龍蝦', src: 'images/lobster.svg', credit: '自製插圖 CC0' },
-  { id: 'treasure', seq: 160, cat: 'ocean', name: '海底寶箱', src: 'images/treasure.svg', credit: '自製插圖 CC0' }
+  { id: 'treasure', seq: 160, cat: 'ocean', name: '海底寶箱', src: 'images/treasure.svg', credit: '自製插圖 CC0' },
+  /* job */
+  { id: 'doctor', seq: 161, cat: 'job', name: '醫生', src: 'images/doctor.svg', credit: '自製插圖 CC0' },
+  { id: 'nurse', seq: 162, cat: 'job', name: '護士', src: 'images/nurse.svg', credit: '自製插圖 CC0' },
+  { id: 'policeman', seq: 163, cat: 'job', name: '警察', src: 'images/policeman.svg', credit: '自製插圖 CC0' },
+  { id: 'firefighter', seq: 164, cat: 'job', name: '消防員', src: 'images/firefighter.svg', credit: '自製插圖 CC0' },
+  { id: 'chef', seq: 165, cat: 'job', name: '廚師', src: 'images/chef.svg', credit: '自製插圖 CC0' },
+  { id: 'teacher', seq: 166, cat: 'job', name: '老師', src: 'images/teacher.svg', credit: '自製插圖 CC0' },
+  { id: 'astronaut', seq: 167, cat: 'job', name: '太空人', src: 'images/astronaut.svg', credit: '自製插圖 CC0' },
+  { id: 'farmer', seq: 168, cat: 'job', name: '農夫', src: 'images/farmer.svg', credit: '自製插圖 CC0' },
+  { id: 'pilot', seq: 169, cat: 'job', name: '飛行員', src: 'images/pilot.svg', credit: '自製插圖 CC0' },
+  { id: 'postman', seq: 170, cat: 'job', name: '郵差', src: 'images/postman.svg', credit: '自製插圖 CC0' },
+  { id: 'builder', seq: 171, cat: 'job', name: '建築工人', src: 'images/builder.svg', credit: '自製插圖 CC0' },
+  { id: 'painter', seq: 172, cat: 'job', name: '畫家', src: 'images/painter.svg', credit: '自製插圖 CC0' },
+  { id: 'scientist', seq: 173, cat: 'job', name: '科學家', src: 'images/scientist.svg', credit: '自製插圖 CC0' },
+  { id: 'diver', seq: 174, cat: 'job', name: '潛水員', src: 'images/diver.svg', credit: '自製插圖 CC0' },
+  { id: 'singer', seq: 175, cat: 'job', name: '歌手', src: 'images/singer.svg', credit: '自製插圖 CC0' },
+  { id: 'photographer', seq: 176, cat: 'job', name: '攝影師', src: 'images/photographer.svg', credit: '自製插圖 CC0' }
 ];
