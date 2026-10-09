@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 144 張）
+/* 圖片清單（每類 16 張、共 160 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -15,7 +15,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'festival',icon: '🎉', name: '節慶慶典' },
   { id: 'learn',   icon: '🔤', name: '學習認知' },
   { id: 'story',   icon: '🏰', name: '童話故事' },
-  { id: 'dino',    icon: '🦕', name: '遠古恐龍' }
+  { id: 'dino',    icon: '🦕', name: '遠古恐龍' },
+  { id: 'ocean',   icon: '🐠', name: '海洋生物' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -171,5 +172,22 @@ window.PUZZLE_IMAGES = [
   { id: 'fossil', seq: 141, cat: 'dino', name: '化石', src: 'images/fossil.svg', credit: '自製插圖 CC0' },
   { id: 'volcano', seq: 142, cat: 'dino', name: '火山', src: 'images/volcano.svg', credit: '自製插圖 CC0' },
   { id: 'meteor', seq: 143, cat: 'dino', name: '隕石', src: 'images/meteor.svg', credit: '自製插圖 CC0' },
-  { id: 'babydino', seq: 144, cat: 'dino', name: '恐龍寶寶', src: 'images/babydino.svg', credit: '自製插圖 CC0' }
+  { id: 'babydino', seq: 144, cat: 'dino', name: '恐龍寶寶', src: 'images/babydino.svg', credit: '自製插圖 CC0' },
+  /* ocean */
+  { id: 'clownfish', seq: 145, cat: 'ocean', name: '小丑魚', src: 'images/clownfish.svg', credit: '自製插圖 CC0' },
+  { id: 'pufferfish', seq: 146, cat: 'ocean', name: '河豚', src: 'images/pufferfish.svg', credit: '自製插圖 CC0' },
+  { id: 'whale', seq: 147, cat: 'ocean', name: '鯨魚', src: 'images/whale.svg', credit: '自製插圖 CC0' },
+  { id: 'dolphin', seq: 148, cat: 'ocean', name: '海豚', src: 'images/dolphin.svg', credit: '自製插圖 CC0' },
+  { id: 'shark', seq: 149, cat: 'ocean', name: '鯊魚', src: 'images/shark.svg', credit: '自製插圖 CC0' },
+  { id: 'octopus', seq: 150, cat: 'ocean', name: '章魚', src: 'images/octopus.svg', credit: '自製插圖 CC0' },
+  { id: 'jellyfish', seq: 151, cat: 'ocean', name: '水母', src: 'images/jellyfish.svg', credit: '自製插圖 CC0' },
+  { id: 'crab', seq: 152, cat: 'ocean', name: '螃蟹', src: 'images/crab.svg', credit: '自製插圖 CC0' },
+  { id: 'seaturtle', seq: 153, cat: 'ocean', name: '海龜', src: 'images/seaturtle.svg', credit: '自製插圖 CC0' },
+  { id: 'starfish', seq: 154, cat: 'ocean', name: '海星', src: 'images/starfish.svg', credit: '自製插圖 CC0' },
+  { id: 'seahorse', seq: 155, cat: 'ocean', name: '海馬', src: 'images/seahorse.svg', credit: '自製插圖 CC0' },
+  { id: 'seal', seq: 156, cat: 'ocean', name: '海豹', src: 'images/seal.svg', credit: '自製插圖 CC0' },
+  { id: 'stingray', seq: 157, cat: 'ocean', name: '魟魚', src: 'images/stingray.svg', credit: '自製插圖 CC0' },
+  { id: 'coral', seq: 158, cat: 'ocean', name: '珊瑚', src: 'images/coral.svg', credit: '自製插圖 CC0' },
+  { id: 'lobster', seq: 159, cat: 'ocean', name: '龍蝦', src: 'images/lobster.svg', credit: '自製插圖 CC0' },
+  { id: 'treasure', seq: 160, cat: 'ocean', name: '海底寶箱', src: 'images/treasure.svg', credit: '自製插圖 CC0' }
 ];

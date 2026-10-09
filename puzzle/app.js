@@ -8,9 +8,8 @@
   // 片數 → [直向或橫向] 的格子配置
   var SIZES = [9, 12, 16];
   var state = { count: 9, imgIndex: 0, cols: 3, rows: 3, pieces: [], c: 0, bx: 0, by: 0,
-                tray: null, t: 1, soundOn: true, solved: 0, cat: 'new', jigsaw: true, showBase: true, pad: 0, B: 0 };
+                tray: null, t: 1, soundOn: true, solved: 0, cat: 'new', menuScroll: 0, jigsaw: true, showBase: true, pad: 0, B: 0 };
 
-  try { var sc = localStorage.getItem('puzzleCat'); if (CATS.some(function (c) { return c.id === sc; })) state.cat = sc; } catch (e) {}
   try { state.showBase = localStorage.getItem('puzzleBase') !== 'off'; } catch (e) {}
   try { state.jigsaw = localStorage.getItem('puzzleShape') !== 'square'; } catch (e) {}
   try { var saved = parseInt(localStorage.getItem('puzzleCount'), 10); if (SIZES.indexOf(saved) >= 0) state.count = saved; } catch (e) {}
@@ -57,35 +56,52 @@
     });
   }
 
-  // 目前分類裡的圖片（回傳在 IMAGES 裡的索引）。'new' = 最新加入的 N 張，新的在前
-  function indexesInCat() {
+  // 首頁：每個類別一張大卡片（固定圖示，不放縮圖）；最新圖片放最上面、佔滿一整排
+  function buildHome() {
+    var box = $('cats'); box.innerHTML = '';
+    CATS.forEach(function (c) {
+      var n = indexesInCat(c.id).length, b = document.createElement('button');
+      b.className = 'cat-card' + (c.id === 'new' ? ' new' : '');
+      b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
+                    '</span><span class="ct">' + n + ' 張</span></span>';
+      b.onclick = function () { openCat(c.id); };
+      box.appendChild(b);
+    });
+  }
+
+  // 目前分類（或指定分類）裡的圖片，回傳在 IMAGES 裡的索引。'new' = 最新加入的 N 張，新的在前
+  function indexesInCat(cat) {
+    cat = cat || state.cat;
     var out = [];
-    IMAGES.forEach(function (im, i) { if (state.cat === 'new' || im.cat === state.cat) out.push(i); });
-    if (state.cat === 'new') {
+    IMAGES.forEach(function (im, i) { if (cat === 'new' || im.cat === cat) out.push(i); });
+    if (cat === 'new') {
       out.sort(function (a, b) { return IMAGES[b].seq - IMAGES[a].seq; });
       out = out.slice(0, window.PUZZLE_NEW_COUNT || 16);
     }
     return out;
   }
 
-  function buildMenu() {
-    var cats = $('cats'); cats.innerHTML = '';
-    CATS.forEach(function (c) {
-      var b = document.createElement('button');
-      b.className = 'cat-btn' + (c.id === state.cat ? ' on' : '');
-      b.innerHTML = '<span class="ico">' + c.icon + '</span>' + c.name;
-      b.onclick = function () { state.cat = c.id; save('puzzleCat', c.id); buildMenu(); };
-      cats.appendChild(b);
-    });
+  // 類別頁：該類別的圖片，點圖片直接進拼圖
+  function openCat(id) {
+    state.cat = id;
+    var c = CATS.filter(function (x) { return x.id === id; })[0];
+    $('catTitle').textContent = c.icon + ' ' + c.name;
     var gal = $('gallery'); gal.innerHTML = '';
     indexesInCat().forEach(function (i) {
       var im = IMAGES[i], b = document.createElement('button');
       b.className = 'thumb';
       b.innerHTML = '<img src="' + im.src + '" alt="' + im.name + '"><span>' + im.name + '</span>';
-      b.onclick = function () { start(i); };
+      b.onclick = function () { state.menuScroll = menu.scrollTop; start(i); };
       gal.appendChild(b);
     });
+    $('homeView').classList.add('hidden'); $('catView').classList.remove('hidden');
+    menu.scrollTop = 0;
   }
+  function showHome() {
+    $('catView').classList.add('hidden'); $('homeView').classList.remove('hidden');
+    menu.scrollTop = 0;
+  }
+  $('btnCatBack').onclick = showHome;
 
   $('btnSettings').onclick = function () { buildSettings(); $('settings').classList.remove('hidden'); };
   $('btnSettingsClose').onclick = function () { $('settings').classList.add('hidden'); };
@@ -304,7 +320,7 @@
   }
 
   /* ---------- 按鈕 ---------- */
-  $('btnBack').onclick = function () { game.classList.add('hidden'); menu.classList.remove('hidden'); };
+  $('btnBack').onclick = function () { game.classList.add('hidden'); menu.classList.remove('hidden'); menu.scrollTop = state.menuScroll; };
   $('btnShuffle').onclick = function () { start(state.imgIndex); };
   $('btnHint').onclick = function () { board.classList.add('peek'); setTimeout(function () { board.classList.remove('peek'); }, 2000); };
   $('btnSound').onclick = function () { state.soundOn = !state.soundOn; this.textContent = state.soundOn ? '🔊' : '🔇'; };
@@ -318,5 +334,5 @@
     clearTimeout(rt); rt = setTimeout(function () { if (!game.classList.contains('hidden')) layout(false); }, 100);
   });
 
-  buildMenu();
+  buildHome();
 })();

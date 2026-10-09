@@ -10,16 +10,22 @@
   <!-- 選擇畫面 -->
   <main id="menu" class="screen">
     <button id="btnSettings" class="gear" aria-label="設定">⚙️</button>
-    <h1>🧩 幼兒啟蒙認知拼圖</h1>
-    <p class="hint">先選一張圖片</p>
-    <div id="cats" class="cats"></div>
-    <div id="gallery" class="gallery"></div>
+    <div id="homeView">
+      <h1>🧩 幼兒啟蒙認知拼圖</h1>
+      <p class="hint">先選一個主題</p>
+      <div id="cats" class="cat-grid"></div>
+    </div>
+    <div id="catView" class="hidden">
+      <button id="btnCatBack" class="gear back" aria-label="返回">⬅️</button>
+      <h1 id="catTitle"></h1>
+      <div id="gallery" class="gallery"></div>
+    </div>
   </main>
 
   <!-- 遊戲畫面 -->
   <section id="game" class="screen hidden">
     <header class="bar">
-      <button id="btnBack" class="btn" aria-label="回選單">🏠</button>
+      <button id="btnBack" class="btn" aria-label="返回">⬅️</button>
       <button id="btnHint" class="btn" aria-label="看原圖">👀</button>
       <button id="btnShuffle" class="btn" aria-label="重新開始">🔄</button>
       <button id="btnSound" class="btn" aria-label="音效">🔊</button>
