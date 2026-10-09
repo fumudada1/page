@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 192 張）
+/* 圖片清單（每類 16 張、共 208 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -18,7 +18,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'dino',    icon: '🦕', name: '遠古恐龍' },
   { id: 'ocean',   icon: '🐠', name: '海洋生物' },
   { id: 'job',     icon: '👷', name: '職業體驗' },
-  { id: 'bug',     icon: '🐞', name: '野外昆蟲' }
+  { id: 'bug',     icon: '🐞', name: '野外昆蟲' },
+  { id: 'food',    icon: '🍔', name: '好吃食物' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -225,5 +226,22 @@ window.PUZZLE_IMAGES = [
   { id: 'earthworm', seq: 189, cat: 'bug', name: '蚯蚓', src: 'images/earthworm.svg', credit: '自製插圖 CC0' },
   { id: 'stagbeetle', seq: 190, cat: 'bug', name: '鍬形蟲', src: 'images/stagbeetle.svg', credit: '自製插圖 CC0' },
   { id: 'moth', seq: 191, cat: 'bug', name: '飛蛾', src: 'images/moth.svg', credit: '自製插圖 CC0' },
-  { id: 'cricket', seq: 192, cat: 'bug', name: '蟋蟀', src: 'images/cricket.svg', credit: '自製插圖 CC0' }
+  { id: 'cricket', seq: 192, cat: 'bug', name: '蟋蟀', src: 'images/cricket.svg', credit: '自製插圖 CC0' },
+  /* food */
+  { id: 'hamburger', seq: 193, cat: 'food', name: '漢堡', src: 'images/hamburger.svg', credit: '自製插圖 CC0' },
+  { id: 'pizza', seq: 194, cat: 'food', name: '披薩', src: 'images/pizza.svg', credit: '自製插圖 CC0' },
+  { id: 'fries', seq: 195, cat: 'food', name: '薯條', src: 'images/fries.svg', credit: '自製插圖 CC0' },
+  { id: 'hotdog', seq: 196, cat: 'food', name: '熱狗', src: 'images/hotdog.svg', credit: '自製插圖 CC0' },
+  { id: 'sushi', seq: 197, cat: 'food', name: '壽司', src: 'images/sushi.svg', credit: '自製插圖 CC0' },
+  { id: 'dumpling', seq: 198, cat: 'food', name: '水餃', src: 'images/dumpling.svg', credit: '自製插圖 CC0' },
+  { id: 'ramen', seq: 199, cat: 'food', name: '拉麵', src: 'images/ramen.svg', credit: '自製插圖 CC0' },
+  { id: 'bread', seq: 200, cat: 'food', name: '麵包', src: 'images/bread.svg', credit: '自製插圖 CC0' },
+  { id: 'friedegg', seq: 201, cat: 'food', name: '荷包蛋', src: 'images/friedegg.svg', credit: '自製插圖 CC0' },
+  { id: 'cheese', seq: 202, cat: 'food', name: '起司', src: 'images/cheese.svg', credit: '自製插圖 CC0' },
+  { id: 'milk', seq: 203, cat: 'food', name: '牛奶', src: 'images/milk.svg', credit: '自製插圖 CC0' },
+  { id: 'bubbletea', seq: 204, cat: 'food', name: '珍珠奶茶', src: 'images/bubbletea.svg', credit: '自製插圖 CC0' },
+  { id: 'popcorn', seq: 205, cat: 'food', name: '爆米花', src: 'images/popcorn.svg', credit: '自製插圖 CC0' },
+  { id: 'drumstick', seq: 206, cat: 'food', name: '雞腿', src: 'images/drumstick.svg', credit: '自製插圖 CC0' },
+  { id: 'carrot', seq: 207, cat: 'food', name: '紅蘿蔔', src: 'images/carrot.svg', credit: '自製插圖 CC0' },
+  { id: 'corn', seq: 208, cat: 'food', name: '玉米', src: 'images/corn.svg', credit: '自製插圖 CC0' }
 ];
