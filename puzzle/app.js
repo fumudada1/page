@@ -68,8 +68,9 @@
     return out;
   }
 
+  var catsShown = false;   // 第一次顯示時，把目前分類捲到可見位置
   function buildMenu() {
-    var cats = $('cats'); cats.innerHTML = '';
+    var cats = $('cats'), keepScroll = cats.scrollLeft; cats.innerHTML = '';
     CATS.forEach(function (c) {
       var b = document.createElement('button');
       b.className = 'cat-btn' + (c.id === state.cat ? ' on' : '');
@@ -77,6 +78,12 @@
       b.onclick = function () { state.cat = c.id; save('puzzleCat', c.id); buildMenu(); };
       cats.appendChild(b);
     });
+    cats.scrollLeft = keepScroll;   // 重建後保留捲動位置
+    if (!catsShown) {
+      catsShown = true;
+      var on = cats.querySelector('.on');
+      if (on) cats.scrollLeft = Math.max(0, on.offsetLeft - (cats.clientWidth - on.offsetWidth) / 2);
+    }
     var gal = $('gallery'); gal.innerHTML = '';
     indexesInCat().forEach(function (i) {
       var im = IMAGES[i], b = document.createElement('button');

@@ -82,11 +82,12 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .modal-card h3 { margin:14px 0 8px; font-size:1.05rem; }
 .modal-card .btn.big { margin-top:18px; }
 
-/* 分類 */
-.cats { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; max-width:1060px; margin:0 auto 16px; }
-@media (min-width: 720px) { .cats { grid-template-columns:repeat(10,1fr); gap:10px; } }
-.cat-btn { border:3px solid transparent; background:#fff; color:var(--ink); border-radius:18px; padding:8px 0;
-  font-size:clamp(.6rem,3.2vw,.9rem); font-weight:700; box-shadow:0 4px 0 #e5d6ad; font-family:inherit; white-space:nowrap; min-width:0; }
-.cat-btn .ico { display:block; font-size:clamp(1.5rem,7.5vw,2rem); line-height:1.2; }
+/* 分類：單排橫向滑動（類別再多也不會掉單）；寬螢幕改為置中換行 */
+.cats { display:flex; gap:8px; overflow-x:auto; max-width:1100px; margin:0 auto 8px; padding:2px 6px 12px;
+  scroll-snap-type:x proximity; scrollbar-width:thin; touch-action:pan-x pan-y; -webkit-overflow-scrolling:touch; }
+.cat-btn { flex:0 0 80px; scroll-snap-align:start; border:3px solid transparent; background:#fff; color:var(--ink); border-radius:18px;
+  padding:8px 0; font-size:.9rem; font-weight:700; box-shadow:0 4px 0 #e5d6ad; font-family:inherit; white-space:nowrap; }
+.cat-btn .ico { display:block; font-size:2rem; line-height:1.2; }
 .cat-btn.on { background:var(--pri2); border-color:var(--pri); }
 .cat-btn:active { transform: translateY(3px); box-shadow:none; }
+@media (min-width: 1000px) { .cats { flex-wrap:wrap; justify-content:center; overflow:visible; } }
