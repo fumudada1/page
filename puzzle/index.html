@@ -9,15 +9,9 @@
 <body>
   <!-- 選擇畫面 -->
   <main id="menu" class="screen">
+    <button id="btnSettings" class="gear" aria-label="設定">⚙️</button>
     <h1>🧩 小小拼圖</h1>
-
-    <h2>1. 選片數</h2>
-    <div id="sizes" class="sizes"></div>
-
-    <h2>2. 選形狀</h2>
-    <div id="shapes" class="sizes"></div>
-
-    <h2>3. 選圖片</h2>
+    <p class="hint">先選一張圖片</p>
     <div id="gallery" class="gallery"></div>
   </main>
 
@@ -43,6 +37,29 @@
         <button id="btnAgain" class="btn big">🔄 再玩一次</button>
         <button id="btnNext" class="btn big">➡️ 換一張</button>
       </div>
+    </div>
+  </div>
+
+  <!-- 設定 -->
+  <div id="settings" class="modal hidden">
+    <div class="modal-card">
+      <h2>⚙️ 設定</h2>
+      <h3>拼圖形狀</h3>
+      <div id="shapes" class="sizes"></div>
+      <h3>上方底圖</h3>
+      <div id="bases" class="sizes"></div>
+      <button id="btnSettingsClose" class="btn big">完成</button>
+    </div>
+  </div>
+
+  <!-- 選片數 -->
+  <div id="picker" class="modal hidden">
+    <div class="modal-card">
+      <button id="btnPickClose" class="x" aria-label="關閉">✕</button>
+      <img id="pickImg" class="pick-img" alt="">
+      <h2 id="pickName"></h2>
+      <h3>要拼幾片？</h3>
+      <div id="pickSizes" class="sizes"></div>
     </div>
   </div>
 

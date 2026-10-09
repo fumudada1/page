@@ -8,8 +8,9 @@
   // 片數 → [直向或橫向] 的格子配置
   var SIZES = [9, 12, 16];
   var state = { count: 9, imgIndex: 0, cols: 3, rows: 3, pieces: [], c: 0, bx: 0, by: 0,
-                tray: null, t: 1, soundOn: true, solved: 0, jigsaw: true, pad: 0, B: 0 };
+                tray: null, t: 1, soundOn: true, solved: 0, jigsaw: true, showBase: true, pad: 0, B: 0 };
 
+  try { state.showBase = localStorage.getItem('puzzleBase') !== 'off'; } catch (e) {}
   try { state.jigsaw = localStorage.getItem('puzzleShape') !== 'square'; } catch (e) {}
   try { var saved = parseInt(localStorage.getItem('puzzleCount'), 10); if (SIZES.indexOf(saved) >= 0) state.count = saved; } catch (e) {}
 
@@ -32,40 +33,58 @@
   function sndWin() { [523, 659, 784, 1047, 784, 1047].forEach(function (f, i) { tone(f, i * 0.14, 0.3); }); }
 
   /* ---------- 選單 ---------- */
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  // 一排切換按鈕：opts = [[值, 圖示, 文字], ...]
+  function toggleRow(el, opts, current, onPick) {
+    el.innerHTML = '';
+    opts.forEach(function (o) {
+      var b = document.createElement('button');
+      b.className = 'size-btn' + (o[0] === current ? ' on' : '');
+      b.innerHTML = o[1] + '<small>' + o[2] + '</small>';
+      b.onclick = function () { onPick(o[0]); };
+      el.appendChild(b);
+    });
+  }
+
+  function buildSettings() {
+    toggleRow($('shapes'), [[true, '🧩', '拼圖形'], [false, '⬜', '方塊']], state.jigsaw, function (v) {
+      state.jigsaw = v; save('puzzleShape', v ? 'jigsaw' : 'square'); buildSettings();
+    });
+    toggleRow($('bases'), [[true, '🖼️', '有底圖'], [false, '⬛', '無底圖']], state.showBase, function (v) {
+      state.showBase = v; save('puzzleBase', v ? 'on' : 'off'); buildSettings();
+    });
+  }
+
   function buildMenu() {
-    var sizes = $('sizes'); sizes.innerHTML = '';
-    SIZES.forEach(function (n) {
-      var b = document.createElement('button');
-      b.className = 'size-btn' + (n === state.count ? ' on' : '');
-      b.innerHTML = n + '<small>片</small>';
-      b.onclick = function () {
-        state.count = n;
-        try { localStorage.setItem('puzzleCount', n); } catch (e) {}
-        buildMenu();
-      };
-      sizes.appendChild(b);
-    });
-    var shapes = $('shapes'); shapes.innerHTML = '';
-    [[true, '🧩', '拼圖形'], [false, '⬜', '方塊']].forEach(function (s) {
-      var b = document.createElement('button');
-      b.className = 'size-btn' + (s[0] === state.jigsaw ? ' on' : '');
-      b.innerHTML = s[1] + '<small>' + s[2] + '</small>';
-      b.onclick = function () {
-        state.jigsaw = s[0];
-        try { localStorage.setItem('puzzleShape', s[0] ? 'jigsaw' : 'square'); } catch (e) {}
-        buildMenu();
-      };
-      shapes.appendChild(b);
-    });
     var gal = $('gallery'); gal.innerHTML = '';
     IMAGES.forEach(function (im, i) {
       var b = document.createElement('button');
       b.className = 'thumb';
       b.innerHTML = '<img src="' + im.src + '" alt="' + im.name + '"><span>' + im.name + '</span>';
-      b.onclick = function () { start(i); };
+      b.onclick = function () { openPicker(i); };
       gal.appendChild(b);
     });
   }
+
+  // 選好圖片後，再選片數
+  function openPicker(i) {
+    var im = IMAGES[i];
+    $('pickImg').src = im.src; $('pickName').textContent = im.name;
+    toggleRow($('pickSizes'), SIZES.map(function (n) { return [n, n, '片']; }), state.count, function (n) {
+      state.count = n; save('puzzleCount', n);
+      $('picker').classList.add('hidden');
+      start(i);
+    });
+    $('picker').classList.remove('hidden');
+  }
+
+  $('btnSettings').onclick = function () { buildSettings(); $('settings').classList.remove('hidden'); };
+  $('btnSettingsClose').onclick = function () { $('settings').classList.add('hidden'); };
+  $('btnPickClose').onclick = function () { $('picker').classList.add('hidden'); };
+  ['settings', 'picker'].forEach(function (id) {   // 點空白處關閉
+    $(id).addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });
+  });
 
   /* ---------- 遊戲 ---------- */
   function shuffle(a) {
@@ -99,6 +118,10 @@
     var cols = state.cols, rows = state.rows, src = IMAGES[state.imgIndex].src;
     board.innerHTML = '<div class="ghost"></div>';
     board.querySelector('.ghost').style.backgroundImage = 'url(' + src + ')';
+    board.classList.toggle('jig', state.jigsaw);
+    board.classList.toggle('nobase', !state.showBase);
+    var slots = svgEl('svg', { 'class': 'slots' });
+    board.appendChild(slots);
 
     // 相鄰兩塊共用的邊：+1 = 左(上)邊那塊長出凸塊，-1 = 凹槽
     var tabH = [], tabV = [];
@@ -118,7 +141,9 @@
       svg.appendChild(clip); svg.appendChild(img); svg.appendChild(line);
       stage.appendChild(svg);
 
-      var p = { el: svg, img: img, cpath: cpath, line: line, col: c, row: r, done: false,
+      var slot = svgEl('path', {});
+      if (state.jigsaw) slots.appendChild(slot);
+      var p = { slotPath: slot, el: svg, img: img, cpath: cpath, line: line, col: c, row: r, done: false,
         slot: order[state.pieces.length],
         s: { // 上、右、下、左 四條邊（0 = 外框平邊）
           t: j && r > 0 ? -tabV[r - 1][c] : 0,
@@ -192,6 +217,8 @@
       el.setAttribute('width', B); el.setAttribute('height', B);
       el.style.width = el.style.height = B + 'px';
       p.cpath.setAttribute('d', d); p.line.setAttribute('d', d);
+      p.slotPath.setAttribute('d', piecePath(p, 0, c));
+      p.slotPath.setAttribute('transform', 'translate(' + p.col * c + ' ' + p.row * c + ')');
       p.img.setAttribute('x', pad + ox - p.col * c); p.img.setAttribute('y', pad + oy - p.row * c);
       p.img.setAttribute('width', D); p.img.setAttribute('height', D);
       if (first) el.style.transition = 'none';
