@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 96 張）
+/* 圖片清單（每類 16 張、共 128 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -12,7 +12,9 @@ window.PUZZLE_CATEGORIES = [
   { id: 'nature',  icon: '🌻', name: '美麗自然' },
   { id: 'vehicle', icon: '🚗', name: '交通工具' },
   { id: 'life',    icon: '🏠', name: '日常生活' },
-  { id: 'festival',icon: '🎉', name: '節慶慶典' }
+  { id: 'festival',icon: '🎉', name: '節慶慶典' },
+  { id: 'learn',   icon: '🔤', name: '學習認知' },
+  { id: 'story',   icon: '🏰', name: '童話故事' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -117,5 +119,39 @@ window.PUZZLE_IMAGES = [
   { id: 'ghost', seq: 93, cat: 'festival', name: '幽靈', src: 'images/ghost.svg', credit: '自製插圖 CC0' },
   { id: 'heart', seq: 94, cat: 'festival', name: '愛心', src: 'images/heart.svg', credit: '自製插圖 CC0' },
   { id: 'easteregg', seq: 95, cat: 'festival', name: '彩蛋', src: 'images/easteregg.svg', credit: '自製插圖 CC0' },
-  { id: 'partyhat', seq: 96, cat: 'festival', name: '派對帽', src: 'images/partyhat.svg', credit: '自製插圖 CC0' }
+  { id: 'partyhat', seq: 96, cat: 'festival', name: '派對帽', src: 'images/partyhat.svg', credit: '自製插圖 CC0' },
+  /* learn */
+  { id: 'circle', seq: 97, cat: 'learn', name: '圓形', src: 'images/circle.svg', credit: '自製插圖 CC0' },
+  { id: 'triangle', seq: 98, cat: 'learn', name: '三角形', src: 'images/triangle.svg', credit: '自製插圖 CC0' },
+  { id: 'square', seq: 99, cat: 'learn', name: '正方形', src: 'images/square.svg', credit: '自製插圖 CC0' },
+  { id: 'rectangle', seq: 100, cat: 'learn', name: '長方形', src: 'images/rectangle.svg', credit: '自製插圖 CC0' },
+  { id: 'diamond', seq: 101, cat: 'learn', name: '菱形', src: 'images/diamond.svg', credit: '自製插圖 CC0' },
+  { id: 'primary', seq: 102, cat: 'learn', name: '三原色', src: 'images/primary.svg', credit: '自製插圖 CC0' },
+  { id: 'crayons', seq: 103, cat: 'learn', name: '蠟筆', src: 'images/crayons.svg', credit: '自製插圖 CC0' },
+  { id: 'palette', seq: 104, cat: 'learn', name: '調色盤', src: 'images/palette.svg', credit: '自製插圖 CC0' },
+  { id: 'numbers', seq: 105, cat: 'learn', name: '數字', src: 'images/numbers.svg', credit: '自製插圖 CC0' },
+  { id: 'letters', seq: 106, cat: 'learn', name: '英文字母', src: 'images/letters.svg', credit: '自製插圖 CC0' },
+  { id: 'bopomofo', seq: 107, cat: 'learn', name: '注音符號', src: 'images/bopomofo.svg', credit: '自製插圖 CC0' },
+  { id: 'dice', seq: 108, cat: 'learn', name: '骰子', src: 'images/dice.svg', credit: '自製插圖 CC0' },
+  { id: 'ruler', seq: 109, cat: 'learn', name: '尺', src: 'images/ruler.svg', credit: '自製插圖 CC0' },
+  { id: 'magnifier', seq: 110, cat: 'learn', name: '放大鏡', src: 'images/magnifier.svg', credit: '自製插圖 CC0' },
+  { id: 'globe', seq: 111, cat: 'learn', name: '地球儀', src: 'images/globe.svg', credit: '自製插圖 CC0' },
+  { id: 'backpack', seq: 112, cat: 'learn', name: '書包', src: 'images/backpack.svg', credit: '自製插圖 CC0' },
+  /* story */
+  { id: 'princess', seq: 113, cat: 'story', name: '公主', src: 'images/princess.svg', credit: '自製插圖 CC0' },
+  { id: 'prince', seq: 114, cat: 'story', name: '王子', src: 'images/prince.svg', credit: '自製插圖 CC0' },
+  { id: 'castle', seq: 115, cat: 'story', name: '城堡', src: 'images/castle.svg', credit: '自製插圖 CC0' },
+  { id: 'wand', seq: 116, cat: 'story', name: '魔法棒', src: 'images/wand.svg', credit: '自製插圖 CC0' },
+  { id: 'unicorn', seq: 117, cat: 'story', name: '獨角獸', src: 'images/unicorn.svg', credit: '自製插圖 CC0' },
+  { id: 'dragon', seq: 118, cat: 'story', name: '小龍', src: 'images/dragon.svg', credit: '自製插圖 CC0' },
+  { id: 'redhood', seq: 119, cat: 'story', name: '小紅帽', src: 'images/redhood.svg', credit: '自製插圖 CC0' },
+  { id: 'wolf', seq: 120, cat: 'story', name: '大野狼', src: 'images/wolf.svg', credit: '自製插圖 CC0' },
+  { id: 'carriage', seq: 121, cat: 'story', name: '南瓜馬車', src: 'images/carriage.svg', credit: '自製插圖 CC0' },
+  { id: 'slipper', seq: 122, cat: 'story', name: '玻璃鞋', src: 'images/slipper.svg', credit: '自製插圖 CC0' },
+  { id: 'mirror', seq: 123, cat: 'story', name: '魔鏡', src: 'images/mirror.svg', credit: '自製插圖 CC0' },
+  { id: 'mermaid', seq: 124, cat: 'story', name: '美人魚', src: 'images/mermaid.svg', credit: '自製插圖 CC0' },
+  { id: 'fairy', seq: 125, cat: 'story', name: '小精靈', src: 'images/fairy.svg', credit: '自製插圖 CC0' },
+  { id: 'wizard', seq: 126, cat: 'story', name: '巫師', src: 'images/wizard.svg', credit: '自製插圖 CC0' },
+  { id: 'frogprince', seq: 127, cat: 'story', name: '青蛙王子', src: 'images/frogprince.svg', credit: '自製插圖 CC0' },
+  { id: 'lamp', seq: 128, cat: 'story', name: '神燈', src: 'images/lamp.svg', credit: '自製插圖 CC0' }
 ];
