@@ -8,7 +8,7 @@
   // 片數 → [直向或橫向] 的格子配置
   var SIZES = [9, 12, 16];
   var state = { count: 9, imgIndex: 0, cols: 3, rows: 3, pieces: [], c: 0, bx: 0, by: 0,
-                tray: null, t: 1, soundOn: true, solved: 0, cat: 'all', jigsaw: true, showBase: true, pad: 0, B: 0 };
+                tray: null, t: 1, soundOn: true, solved: 0, cat: 'new', jigsaw: true, showBase: true, pad: 0, B: 0 };
 
   try { var sc = localStorage.getItem('puzzleCat'); if (CATS.some(function (c) { return c.id === sc; })) state.cat = sc; } catch (e) {}
   try { state.showBase = localStorage.getItem('puzzleBase') !== 'off'; } catch (e) {}
@@ -57,10 +57,14 @@
     });
   }
 
-  // 目前分類裡的圖片（回傳在 IMAGES 裡的索引）
+  // 目前分類裡的圖片（回傳在 IMAGES 裡的索引）。'new' = 最新加入的 N 張，新的在前
   function indexesInCat() {
     var out = [];
-    IMAGES.forEach(function (im, i) { if (state.cat === 'all' || im.cat === state.cat) out.push(i); });
+    IMAGES.forEach(function (im, i) { if (state.cat === 'new' || im.cat === state.cat) out.push(i); });
+    if (state.cat === 'new') {
+      out.sort(function (a, b) { return IMAGES[b].seq - IMAGES[a].seq; });
+      out = out.slice(0, window.PUZZLE_NEW_COUNT || 16);
+    }
     return out;
   }
 
