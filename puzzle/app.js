@@ -8,8 +8,9 @@
   // 片數 → [直向或橫向] 的格子配置
   var SIZES = [9, 12, 16];
   var state = { count: 9, imgIndex: 0, cols: 3, rows: 3, pieces: [], c: 0, bx: 0, by: 0,
-                tray: null, t: 1, soundOn: true, solved: 0 };
+                tray: null, t: 1, soundOn: true, solved: 0, jigsaw: true, pad: 0, B: 0 };
 
+  try { state.jigsaw = localStorage.getItem('puzzleShape') !== 'square'; } catch (e) {}
   try { var saved = parseInt(localStorage.getItem('puzzleCount'), 10); if (SIZES.indexOf(saved) >= 0) state.count = saved; } catch (e) {}
 
   /* ---------- 音效 (Web Audio) ---------- */
@@ -44,6 +45,18 @@
       };
       sizes.appendChild(b);
     });
+    var shapes = $('shapes'); shapes.innerHTML = '';
+    [[true, '🧩', '拼圖形'], [false, '⬜', '方塊']].forEach(function (s) {
+      var b = document.createElement('button');
+      b.className = 'size-btn' + (s[0] === state.jigsaw ? ' on' : '');
+      b.innerHTML = s[1] + '<small>' + s[2] + '</small>';
+      b.onclick = function () {
+        state.jigsaw = s[0];
+        try { localStorage.setItem('puzzleShape', s[0] ? 'jigsaw' : 'square'); } catch (e) {}
+        buildMenu();
+      };
+      shapes.appendChild(b);
+    });
     var gal = $('gallery'); gal.innerHTML = '';
     IMAGES.forEach(function (im, i) {
       var b = document.createElement('button');
@@ -72,24 +85,67 @@
     layout(true);
   }
 
+  var NS = 'http://www.w3.org/2000/svg';
+  function svgEl(name, attrs) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  function rnd() { return Math.random() < 0.5 ? 1 : -1; }
+
   function buildPieces() {
     stage.querySelectorAll('.piece').forEach(function (e) { e.remove(); });
     state.pieces = []; state.solved = 0;
-    var src = IMAGES[state.imgIndex].src;
+    var cols = state.cols, rows = state.rows, src = IMAGES[state.imgIndex].src;
     board.innerHTML = '<div class="ghost"></div>';
     board.querySelector('.ghost').style.backgroundImage = 'url(' + src + ')';
+
+    // 相鄰兩塊共用的邊：+1 = 左(上)邊那塊長出凸塊，-1 = 凹槽
+    var tabH = [], tabV = [];
+    for (var r = 0; r < rows; r++) { tabH[r] = []; tabV[r] = []; for (var c = 0; c < cols; c++) { tabH[r][c] = rnd(); tabV[r][c] = rnd(); } }
+
     var order = shuffle(Array.apply(null, { length: state.count }).map(function (_, i) { return i; }));
-    for (var r = 0; r < state.rows; r++) for (var c = 0; c < state.cols; c++) {
+    for (r = 0; r < rows; r++) for (c = 0; c < cols; c++) {
       var cell = document.createElement('div'); cell.className = 'cell'; cell.dataset.c = c; cell.dataset.r = r;
       board.appendChild(cell);
-      var el = document.createElement('div');
-      el.className = 'piece';
-      el.style.backgroundImage = 'url(' + src + ')';
-      stage.appendChild(el);
-      var p = { el: el, col: c, row: r, done: false, slot: order[state.pieces.length] };
+
+      var j = state.jigsaw, id = 'cp' + state.pieces.length;
+      var svg = svgEl('svg', { 'class': 'piece' });
+      var clip = svgEl('clipPath', { id: id }), cpath = svgEl('path', {});
+      clip.appendChild(cpath);
+      var img = svgEl('image', { href: src, preserveAspectRatio: 'none', 'clip-path': 'url(#' + id + ')' });
+      var line = svgEl('path', { 'class': 'edge', fill: 'transparent' });
+      svg.appendChild(clip); svg.appendChild(img); svg.appendChild(line);
+      stage.appendChild(svg);
+
+      var p = { el: svg, img: img, cpath: cpath, line: line, col: c, row: r, done: false,
+        slot: order[state.pieces.length],
+        s: { // 上、右、下、左 四條邊（0 = 外框平邊）
+          t: j && r > 0 ? -tabV[r - 1][c] : 0,
+          r: j && c < cols - 1 ? tabH[r][c] : 0,
+          b: j && r < rows - 1 ? tabV[r][c] : 0,
+          l: j && c > 0 ? -tabH[r][c - 1] : 0 } };
       state.pieces.push(p);
       bindDrag(p);
     }
+  }
+
+  // 一條邊：從 A 走到 B，sgn 決定凸(+1)、凹(-1)、平(0)
+  function edgePath(A, B, sgn, c) {
+    var dx = (B[0] - A[0]) / c, dy = (B[1] - A[1]) / c, nx = dy, ny = -dx;
+    function P(u, h) { return (A[0] + dx * u * c + nx * h * sgn * c).toFixed(2) + ' ' + (A[1] + dy * u * c + ny * h * sgn * c).toFixed(2); }
+    if (!sgn) return 'L' + P(1, 0);
+    return 'L' + P(0.40, 0) +
+      'C' + P(0.44, 0) + ',' + P(0.44, 0.05) + ',' + P(0.42, 0.08) +
+      'C' + P(0.34, 0.12) + ',' + P(0.36, 0.28) + ',' + P(0.50, 0.28) +
+      'C' + P(0.64, 0.28) + ',' + P(0.66, 0.12) + ',' + P(0.58, 0.08) +
+      'C' + P(0.56, 0.05) + ',' + P(0.56, 0) + ',' + P(0.60, 0) +
+      'L' + P(1, 0);
+  }
+  function piecePath(p, pad, c) {
+    var TL = [pad, pad], TR = [pad + c, pad], BR = [pad + c, pad + c], BL = [pad, pad + c];
+    return 'M' + TL[0] + ' ' + TL[1] + edgePath(TL, TR, p.s.t, c) + edgePath(TR, BR, p.s.r, c) +
+      edgePath(BR, BL, p.s.b, c) + edgePath(BL, TL, p.s.l, c) + 'Z';
   }
 
   function layout(first) {
@@ -105,13 +161,15 @@
       bx = m + 4; by = (H - c * rows) / 2;
       tray = { x: bx + c * cols + 20, y: m, w: W - (bx + c * cols + 20) - m, h: H - 2 * m };
     }
-    Object.assign(state, { c: c, bx: bx, by: by, tray: tray });
+    var pad = state.jigsaw ? c * 0.3 : 0, B = c + 2 * pad;
+    Object.assign(state, { c: c, bx: bx, by: by, tray: tray, pad: pad, B: B });
+    var gap = state.jigsaw ? 1.3 : 1;   // 凸塊會突出去，待放區間距要留大一點
 
     // 找出放得下的縮放比例，讓待放區的拼塊能全部排進去
     var n = state.count, t = 1, perRow = 1;
     for (t = 1; t > 0.3; t -= 0.02) {
-      perRow = Math.max(1, Math.floor(tray.w / (c * t)));
-      if (Math.ceil(n / perRow) * c * t <= tray.h) break;
+      perRow = Math.max(1, Math.floor(tray.w / (c * t * gap)));
+      if (Math.ceil(n / perRow) * c * t * gap <= tray.h) break;
     }
     state.t = t; state.perRow = perRow;
 
@@ -124,26 +182,28 @@
       e.style.cssText = 'left:' + e.dataset.c * c + 'px;top:' + e.dataset.r * c + 'px;width:' + c + 'px;height:' + c + 'px';
     });
 
-    var rowsUsed = Math.ceil(n / perRow), slotW = c * t;
+    var rowsUsed = Math.ceil(n / perRow), slotW = c * t * gap;
     var gridW = Math.min(perRow, n) * slotW, gridH = rowsUsed * slotW;
     var sx = tray.x + (tray.w - gridW) / 2, sy = tray.y + (tray.h - gridH) / 2;
     state.slotAt = function (i) { return { x: sx + (i % perRow + 0.5) * slotW, y: sy + (Math.floor(i / perRow) + 0.5) * slotW }; };
 
     state.pieces.forEach(function (p) {
-      var el = p.el;
-      el.style.width = el.style.height = c + 'px';
-      el.style.backgroundSize = D + 'px ' + D + 'px';
-      el.style.backgroundPosition = (ox - p.col * c) + 'px ' + (oy - p.row * c) + 'px';
+      var el = p.el, d = piecePath(p, pad, c);
+      el.setAttribute('width', B); el.setAttribute('height', B);
+      el.style.width = el.style.height = B + 'px';
+      p.cpath.setAttribute('d', d); p.line.setAttribute('d', d);
+      p.img.setAttribute('x', pad + ox - p.col * c); p.img.setAttribute('y', pad + oy - p.row * c);
+      p.img.setAttribute('width', D); p.img.setAttribute('height', D);
       if (first) el.style.transition = 'none';
       if (p.done) place(p, targetOf(p), 1); else place(p, state.slotAt(p.slot), t);
-      if (first) { void el.offsetWidth; el.style.transition = ''; }
+      if (first) { el.getBoundingClientRect(); el.style.transition = ''; }
     });
   }
 
   function targetOf(p) { return { x: state.bx + (p.col + 0.5) * state.c, y: state.by + (p.row + 0.5) * state.c }; }
   function place(p, pt, scale) {
-    p.el.style.left = (pt.x - state.c / 2) + 'px';
-    p.el.style.top = (pt.y - state.c / 2) + 'px';
+    p.el.style.left = (pt.x - state.B / 2) + 'px';
+    p.el.style.top = (pt.y - state.B / 2) + 'px';
     p.el.style.transform = 'scale(' + scale + ')';
   }
 
