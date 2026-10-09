@@ -35,7 +35,6 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
   border-radius:12px; overflow:hidden; }
 .board .ghost { position:absolute; inset:0; opacity:.22; background-repeat:no-repeat; transition:opacity .3s; }
 .board.nobase .ghost { opacity:0; }
-.board.nobase .cell, .board.nobase svg.slots { display:none; }
 .board.peek .ghost { opacity:1; }
 .board.jig .cell { display:none; }
 .board svg.slots { position:absolute; left:0; top:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
