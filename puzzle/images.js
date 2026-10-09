@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 176 張）
+/* 圖片清單（每類 16 張、共 192 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -17,7 +17,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'story',   icon: '🏰', name: '童話故事' },
   { id: 'dino',    icon: '🦕', name: '遠古恐龍' },
   { id: 'ocean',   icon: '🐠', name: '海洋生物' },
-  { id: 'job',     icon: '👷', name: '職業體驗' }
+  { id: 'job',     icon: '👷', name: '職業體驗' },
+  { id: 'bug',     icon: '🐞', name: '野外昆蟲' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -207,5 +208,22 @@ window.PUZZLE_IMAGES = [
   { id: 'scientist', seq: 173, cat: 'job', name: '科學家', src: 'images/scientist.svg', credit: '自製插圖 CC0' },
   { id: 'diver', seq: 174, cat: 'job', name: '潛水員', src: 'images/diver.svg', credit: '自製插圖 CC0' },
   { id: 'singer', seq: 175, cat: 'job', name: '歌手', src: 'images/singer.svg', credit: '自製插圖 CC0' },
-  { id: 'photographer', seq: 176, cat: 'job', name: '攝影師', src: 'images/photographer.svg', credit: '自製插圖 CC0' }
+  { id: 'photographer', seq: 176, cat: 'job', name: '攝影師', src: 'images/photographer.svg', credit: '自製插圖 CC0' },
+  /* bug */
+  { id: 'ladybug', seq: 177, cat: 'bug', name: '瓢蟲', src: 'images/ladybug.svg', credit: '自製插圖 CC0' },
+  { id: 'bee', seq: 178, cat: 'bug', name: '蜜蜂', src: 'images/bee.svg', credit: '自製插圖 CC0' },
+  { id: 'caterpillar', seq: 179, cat: 'bug', name: '毛毛蟲', src: 'images/caterpillar.svg', credit: '自製插圖 CC0' },
+  { id: 'dragonfly', seq: 180, cat: 'bug', name: '蜻蜓', src: 'images/dragonfly.svg', credit: '自製插圖 CC0' },
+  { id: 'ant', seq: 181, cat: 'bug', name: '螞蟻', src: 'images/ant.svg', credit: '自製插圖 CC0' },
+  { id: 'snail', seq: 182, cat: 'bug', name: '蝸牛', src: 'images/snail.svg', credit: '自製插圖 CC0' },
+  { id: 'grasshopper', seq: 183, cat: 'bug', name: '蚱蜢', src: 'images/grasshopper.svg', credit: '自製插圖 CC0' },
+  { id: 'firefly', seq: 184, cat: 'bug', name: '螢火蟲', src: 'images/firefly.svg', credit: '自製插圖 CC0' },
+  { id: 'spider', seq: 185, cat: 'bug', name: '蜘蛛', src: 'images/spider.svg', credit: '自製插圖 CC0' },
+  { id: 'rhinobeetle', seq: 186, cat: 'bug', name: '獨角仙', src: 'images/rhinobeetle.svg', credit: '自製插圖 CC0' },
+  { id: 'cicada', seq: 187, cat: 'bug', name: '蟬', src: 'images/cicada.svg', credit: '自製插圖 CC0' },
+  { id: 'mantis', seq: 188, cat: 'bug', name: '螳螂', src: 'images/mantis.svg', credit: '自製插圖 CC0' },
+  { id: 'earthworm', seq: 189, cat: 'bug', name: '蚯蚓', src: 'images/earthworm.svg', credit: '自製插圖 CC0' },
+  { id: 'stagbeetle', seq: 190, cat: 'bug', name: '鍬形蟲', src: 'images/stagbeetle.svg', credit: '自製插圖 CC0' },
+  { id: 'moth', seq: 191, cat: 'bug', name: '飛蛾', src: 'images/moth.svg', credit: '自製插圖 CC0' },
+  { id: 'cricket', seq: 192, cat: 'bug', name: '蟋蟀', src: 'images/cricket.svg', credit: '自製插圖 CC0' }
 ];
