@@ -37,11 +37,13 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .board.peek .ghost { opacity:1; }
 .board .cell { position:absolute; border:1px dashed rgba(180,150,80,.45); }
 
-.piece { position:absolute; background-repeat:no-repeat; border-radius:6px;
-  box-shadow:0 0 0 3px #fff inset, 0 3px 8px rgba(0,0,0,.28); cursor:grab; z-index:10;
-  transition: left .25s ease, top .25s ease, transform .25s ease, box-shadow .25s; }
-.piece.drag { transition:none; z-index:100; box-shadow:0 0 0 3px #fff inset, 0 12px 22px rgba(0,0,0,.35); cursor:grabbing; }
-.piece.done { z-index:5; box-shadow:none; border-radius:0; cursor:default; pointer-events:none; }
+.piece { position:absolute; overflow:visible; cursor:grab; z-index:10; touch-action:none;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,.35));
+  transition: left .25s ease, top .25s ease, transform .25s ease, filter .25s; }
+.piece .edge { stroke:#fff; stroke-width:3; stroke-linejoin:round; pointer-events:fill; }
+.piece.drag { transition:none; z-index:100; cursor:grabbing; filter: drop-shadow(0 12px 12px rgba(0,0,0,.4)); }
+.piece.done { z-index:5; filter:none; cursor:default; pointer-events:none; }
+.piece.done .edge { stroke:rgba(255,255,255,.55); stroke-width:1.5; }
 .piece.pop { animation: pop .35s ease; }
 @keyframes pop { 50% { filter:brightness(1.35); } }
 
