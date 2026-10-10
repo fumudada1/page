@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 240 張）
+/* 圖片清單（每類 16 張、共 256 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -21,7 +21,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'bug',     icon: '🐞', name: '野外昆蟲' },
   { id: 'food',    icon: '🍔', name: '好吃食物' },
   { id: 'sport',   icon: '⚽', name: '運動遊戲' },
-  { id: 'music',   icon: '🎵', name: '音樂樂器' }
+  { id: 'music',   icon: '🎵', name: '音樂樂器' },
+  { id: 'space',   icon: '🪐', name: '宇宙星球' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -279,5 +280,22 @@ window.PUZZLE_IMAGES = [
   { id: 'harmonica', seq: 237, cat: 'music', name: '口琴', src: 'images/harmonica.svg', credit: '自製插圖 CC0' },
   { id: 'microphone', seq: 238, cat: 'music', name: '麥克風', src: 'images/microphone.svg', credit: '自製插圖 CC0' },
   { id: 'headphones', seq: 239, cat: 'music', name: '耳機', src: 'images/headphones.svg', credit: '自製插圖 CC0' },
-  { id: 'musicnotes', seq: 240, cat: 'music', name: '音符', src: 'images/musicnotes.svg', credit: '自製插圖 CC0' }
+  { id: 'musicnotes', seq: 240, cat: 'music', name: '音符', src: 'images/musicnotes.svg', credit: '自製插圖 CC0' },
+  /* space */
+  { id: 'mercury', seq: 241, cat: 'space', name: '水星', src: 'images/mercury.svg', credit: '自製插圖 CC0' },
+  { id: 'venus', seq: 242, cat: 'space', name: '金星', src: 'images/venus.svg', credit: '自製插圖 CC0' },
+  { id: 'earth', seq: 243, cat: 'space', name: '地球', src: 'images/earth.svg', credit: '自製插圖 CC0' },
+  { id: 'mars', seq: 244, cat: 'space', name: '火星', src: 'images/mars.svg', credit: '自製插圖 CC0' },
+  { id: 'jupiter', seq: 245, cat: 'space', name: '木星', src: 'images/jupiter.svg', credit: '自製插圖 CC0' },
+  { id: 'saturn', seq: 246, cat: 'space', name: '土星', src: 'images/saturn.svg', credit: '自製插圖 CC0' },
+  { id: 'uranus', seq: 247, cat: 'space', name: '天王星', src: 'images/uranus.svg', credit: '自製插圖 CC0' },
+  { id: 'neptune', seq: 248, cat: 'space', name: '海王星', src: 'images/neptune.svg', credit: '自製插圖 CC0' },
+  { id: 'galaxy', seq: 249, cat: 'space', name: '銀河', src: 'images/galaxy.svg', credit: '自製插圖 CC0' },
+  { id: 'comet', seq: 250, cat: 'space', name: '彗星', src: 'images/comet.svg', credit: '自製插圖 CC0' },
+  { id: 'alien', seq: 251, cat: 'space', name: '外星人', src: 'images/alien.svg', credit: '自製插圖 CC0' },
+  { id: 'ufo', seq: 252, cat: 'space', name: '飛碟', src: 'images/ufo.svg', credit: '自製插圖 CC0' },
+  { id: 'satellite', seq: 253, cat: 'space', name: '人造衛星', src: 'images/satellite.svg', credit: '自製插圖 CC0' },
+  { id: 'telescope', seq: 254, cat: 'space', name: '望遠鏡', src: 'images/telescope.svg', credit: '自製插圖 CC0' },
+  { id: 'constellation', seq: 255, cat: 'space', name: '星座', src: 'images/constellation.svg', credit: '自製插圖 CC0' },
+  { id: 'shuttle', seq: 256, cat: 'space', name: '太空梭', src: 'images/shuttle.svg', credit: '自製插圖 CC0' }
 ];
