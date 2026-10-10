@@ -1,0 +1,38 @@
+{
+  "id": "./",
+  "name": "幼兒啟蒙認知拼圖",
+  "short_name": "啟蒙拼圖",
+  "description": "免費的幼兒拼圖遊戲：16 個主題、256 張可愛圖片，可選 9、12、16 片，支援拼圖形與方塊。適合 2～6 歲孩子認識動物、水果、交通工具、恐龍、宇宙等，免註冊、手機平板電腦都能玩。",
+  "lang": "zh-Hant",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FFF6DD",
+  "theme_color": "#FFF6DD",
+  "categories": [
+    "education",
+    "kids",
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

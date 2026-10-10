@@ -90,20 +90,23 @@
     indexesInCat().forEach(function (i) {
       var im = IMAGES[i], b = document.createElement('button');
       b.className = 'thumb';
-      b.innerHTML = '<img src="' + im.src + '" alt="' + im.name + '"><span>' + im.name + '</span>';
+      b.innerHTML = '<img src="' + im.src + '" alt="' + im.name + '插圖" width="200" height="200" loading="lazy" decoding="async"><span>' + im.name + '</span>';
+      b.setAttribute('aria-label', '玩「' + im.name + '」拼圖');
       b.onclick = function () { state.menuScroll = menu.scrollTop; start(i); };
       gal.appendChild(b);
     });
     $('homeView').classList.add('hidden'); $('catView').classList.remove('hidden');
     menu.scrollTop = 0;
+    if (window.PuzzleAds) PuzzleAds.show('category');
   }
   function showHome() {
     $('catView').classList.add('hidden'); $('homeView').classList.remove('hidden');
     menu.scrollTop = 0;
+    if (window.PuzzleAds) PuzzleAds.show('home');
   }
   $('btnCatBack').onclick = showHome;
 
-  $('btnSettings').onclick = function () { buildSettings(); $('settings').classList.remove('hidden'); };
+  $('btnSettings').onclick = function () { buildSettings(); refreshPwaRows(); $('settings').classList.remove('hidden'); };
   $('btnSettingsClose').onclick = function () { $('settings').classList.add('hidden'); };
   $('settings').addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });   // 點空白處關閉
 
@@ -335,6 +338,47 @@
   });
 
   buildHome();
+  if (window.PuzzleAds) PuzzleAds.show('home');
+
+  /* ---------- PWA：註冊、安裝到主畫面、離線下載 ---------- */
+  var deferredPrompt = null;
+  var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+  var swOk = 'serviceWorker' in navigator && /^https?:$/.test(location.protocol);
+  if (swOk) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; refreshPwaRows(); });
+  window.addEventListener('appinstalled', function () { deferredPrompt = null; refreshPwaRows(); });
+
+  function refreshPwaRows() {
+    var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    var showInstall = !!deferredPrompt && !standalone, showTip = ios && !standalone, showOffline = swOk;
+    $('btnInstall').classList.toggle('hidden', !showInstall);
+    $('installTip').classList.toggle('hidden', !showTip);
+    $('btnOffline').classList.toggle('hidden', !showOffline);
+    $('offlineStatus').classList.toggle('hidden', !showOffline);
+    $('pwaRows').classList.toggle('hidden', !(showInstall || showTip || showOffline));
+    var done = false; try { done = localStorage.getItem('puzzleOffline') === '1'; } catch (e) {}
+    if (showOffline && !$('btnOffline').disabled) $('offlineStatus').textContent = done ? '✅ 圖片已下載，沒有網路也能玩（有新增圖片時可再按一次）' : '看過的圖片會自動存起來；想完全離線玩，可一次下載全部 ' + IMAGES.length + ' 張。';
+  }
+  $('btnInstall').onclick = function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () { deferredPrompt = null; refreshPwaRows(); });
+  };
+  $('btnOffline').onclick = function () {
+    var btn = this, st = $('offlineStatus');
+    btn.disabled = true; st.textContent = '準備下載…';
+    navigator.serviceWorker.ready.then(function (reg) {
+      var ch = new MessageChannel();
+      ch.port1.onmessage = function (ev) {
+        var d = ev.data;
+        if (!d.finished) { st.textContent = '下載中… ' + d.done + ' / ' + d.total; return; }
+        btn.disabled = false;
+        if (d.failed) { st.textContent = '完成了，但有 ' + d.failed + ' 張沒下載成功，請確認網路後再按一次。'; return; }
+        save('puzzleOffline', '1'); refreshPwaRows();
+      };
+      reg.active.postMessage({ type: 'cache-images', urls: IMAGES.map(function (im) { return new URL(im.src, location.href).href; }) }, [ch.port2]);
+    }).catch(function () { btn.disabled = false; st.textContent = '目前無法下載，請稍後再試。'; });
+  };
 
   // 網址直達：?cat=類別代號 開啟該類別；?img=圖片代號 直接開始拼（給搜尋結果與主題頁的連結使用）
   (function () {

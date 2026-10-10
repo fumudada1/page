@@ -16,6 +16,11 @@ NAME = cfg['siteName']
 ADS = bool(cfg.get('adsEnabled'))
 EMAIL = (cfg.get('contactEmail') or '').strip()
 ISSUES = cfg.get('issuesUrl', '')
+SHORT = cfg.get('shortName', NAME)
+ADSENSE = cfg.get('adsense') or {}
+ADS_CLIENT = (ADSENSE.get('client') or '').strip()
+ADS_SLOTS = ADSENSE.get('slots') or {}
+import hashlib, glob
 TODAY = datetime.date.today().isoformat()
 esc = html.escape
 
@@ -108,7 +113,18 @@ def contact_html():
         return '電子郵件：<a href="mailto:%s">%s</a>' % (esc(EMAIL), esc(EMAIL))
     return '請到<a href="%s" rel="noopener">本專案的 GitHub 頁面</a>留言與我們聯繫。' % esc(ISSUES)
 
-def page(path, title, desc, body, crumbs=None, extra_head=''):
+def pwa_head(pre):
+    return f'''<link rel="manifest" href="{pre}manifest.webmanifest">
+<meta name="theme-color" content="#FFF6DD">
+<link rel="icon" type="image/svg+xml" href="{pre}icons/icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="{pre}icons/favicon-32.png">
+<link rel="apple-touch-icon" href="{pre}icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="{esc(SHORT)}">
+'''
+
+def page(path, title, desc, body, crumbs=None, extra_head='', ad=None):
     pre = '../' * path.count('/')
     url = BASE + path
     crumb = ''
@@ -130,7 +146,7 @@ def page(path, title, desc, body, crumbs=None, extra_head=''):
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{esc(url)}">
 <link rel="stylesheet" href="{pre}pages.css">
-{extra_head}</head>
+{pwa_head(pre)}{extra_head}</head>
 <body>
 <header class="top"><div class="wrap">
   <a class="brand" href="{pre}index.html">🧩 {esc(NAME)}</a>
@@ -139,8 +155,11 @@ def page(path, title, desc, body, crumbs=None, extra_head=''):
 <main class="wrap">
 {crumb}
 {body}
+{('<aside class="ad-slot" data-slot="%s" aria-label="廣告" hidden></aside>' % ad) if ad else ''}
 </main>
 {footer(pre)}
+<script src="{pre}ads-config.js"></script>
+<script src="{pre}ads.js"></script>
 </body>
 </html>
 """
@@ -163,8 +182,8 @@ n_theme, n_img = len(themes), len([i for i in imgs])
 # ---------- 各主題頁 ----------
 for idx, c in enumerate(themes):
     t = COPY[c['id']]; items = by_cat[c['id']]
-    cells = ''.join('<li><a href="../index.html?img=%s"><img src="../%s" alt="%s拼圖圖片" loading="lazy" width="200" height="200"><span>%s</span></a></li>'
-                    % (i['id'], i['src'], esc(i['name']), esc(i['name'])) for i in items)
+    cells = ''.join('<li><a href="../index.html?img=%s" title="玩「%s」拼圖"><figure><img src="../%s" alt="%s插圖（%s主題）" loading="lazy" decoding="async" width="200" height="200"><figcaption>%s</figcaption></figure></a></li>'
+                    % (i['id'], esc(i['name']), i['src'], esc(i['name']), esc(c['name']), esc(i['name'])) for i in items)
     others = ''.join('<li><a href="%s.html">%s %s</a></li>' % (o['id'], o['icon'], esc(o['name'])) for o in themes if o['id'] != c['id'])
     prev_c, next_c = themes[idx - 1], themes[(idx + 1) % len(themes)]
     note = '<p class="note">%s</p>' % esc(t['note']) if t.get('note') else ''
@@ -186,7 +205,7 @@ for idx, c in enumerate(themes):
 <p>上一個主題：<a href="{prev_c['id']}.html">{esc(prev_c['name'])}</a>　下一個主題：<a href="{next_c['id']}.html">{esc(next_c['name'])}</a></p>"""
     desc = '免費的%s幼兒拼圖：%s可選 9、12、16 片。%s' % (c['name'], '、'.join(i['name'] for i in items[:5]) + ' 等 %d 張可愛圖片，' % len(items), t['learn'][0])
     write('c/%s.html' % c['id'], page('c/%s.html' % c['id'], '%s拼圖｜%s' % (c['name'], NAME), desc, body,
-          crumbs=[('首頁', '../index.html'), ('主題', None), (c['name'], None)]))
+          crumbs=[('首頁', '../index.html'), ('主題', None), (c['name'], None)], ad='theme'))
 
 # ---------- 關於我們 ----------
 about = f"""<h1>關於我們</h1>
@@ -210,6 +229,7 @@ write('about.html', page('about.html', '關於我們｜' + NAME, '%s 是免費�
       crumbs=[('首頁', 'index.html'), ('關於我們', None)]))
 
 # ---------- 家長須知 ----------
+img_mb = '%.1f' % (sum(os.path.getsize(f) for f in glob.glob('images/*.svg')) / 1048576.0)
 parents = f"""<h1>家長須知</h1>
 <p class="lead">給陪伴孩子玩拼圖的您：這裡說明怎麼玩、怎麼依孩子的年齡調整難度，以及使用螢幕的小提醒。</p>
 <h2>怎麼玩？</h2>
@@ -242,7 +262,8 @@ parents = f"""<h1>家長須知</h1>
 <h2>常見問題</h2>
 <dl class="faq">
 <dt>需要註冊或付費嗎？</dt><dd>不需要，完全免費，也不需要註冊帳號。</dd>
-<dt>需要連上網路嗎？</dt><dd>需要。遊戲需要連上網路才能載入頁面與圖片。</dd>
+<dt>需要連上網路嗎？</dt><dd>第一次開啟需要網路。之後看過的內容會自動存在裝置上；如果想完全離線玩，可以在首頁右上角 ⚙️ 設定裡按「下載全部圖片」（約 {img_mb} MB），之後沒有網路也能玩。</dd>
+<dt>可以安裝到手機主畫面嗎？</dt><dd>可以，像 App 一樣全螢幕開啟。<br>Android（Chrome）：點右上角選單，選「安裝應用程式」或「加到主畫面」，或使用 ⚙️ 設定裡的「安裝」按鈕。<br>iPhone／iPad（Safari）：點下方的「分享」圖示，再選「加入主畫面」。</dd>
 <dt>會蒐集孩子的資料嗎？</dt><dd>不會。我們不要求任何個人資料，您選擇的設定只存在您自己的瀏覽器裡，詳見<a href="privacy.html">隱私權政策</a>。</dd>
 <dt>哪些裝置可以玩？</dt><dd>手機、平板與電腦的主流瀏覽器都可以。手機建議直式或橫式皆可，系統會自動調整版面。</dd>
 <dt>圖片可以拿去使用嗎？</dt><dd>網站圖片為自製插圖，以 CC0 公眾領域貢獻釋出，可自由使用。</dd>
@@ -265,6 +286,7 @@ privacy = f"""<h1>隱私權政策</h1>
 <p>本網站<strong>不需要註冊或登入</strong>，也<strong>不蒐集</strong>姓名、電子郵件、電話、地址、位置、照片、聲音等任何個人資料。</p>
 <h2>2. 儲存在您裝置上的設定</h2>
 <p>為了記住您的偏好，網站會使用瀏覽器的本機儲存空間（localStorage）保存以下設定：拼圖形狀（拼圖形／方塊）、是否顯示上方底圖、上次選擇的片數。這些資料<strong>只存在您自己的裝置上</strong>，不會傳送給我們。您可以隨時清除瀏覽器的網站資料來刪除。</p>
+<p>為了讓網站載入更快、並支援離線使用與安裝到主畫面，網站會透過瀏覽器的快取儲存空間（Cache Storage／Service Worker）在您的裝置上保存遊戲檔案與圖片。這些檔案同樣只存在您的裝置上，不含任何個人資料，可隨時透過清除網站資料移除。</p>
 <h2>3. 網站的託管與存取紀錄</h2>
 <p>本網站由第三方平台託管。依平台的運作方式，伺服器可能會記錄一般性的連線資訊（例如 IP 位址、瀏覽器類型、存取時間），用於提供服務與維護安全。相關處理方式請參閱該平台的隱私權說明，例如 <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub 隱私權聲明</a>。</p>
 {ads_sec}
@@ -314,6 +336,7 @@ seo = f"""<!-- SEO:BEGIN（由 tools/build_pages.py 自動產生，請勿手動�
   <meta property="og:title" content="{esc(NAME)}｜免費幼兒拼圖遊戲">
   <meta property="og:description" content="{esc(home_desc)}">
   <meta property="og:url" content="{esc(BASE)}">
+  {pwa_head('').strip().replace(chr(10), chr(10) + '  ')}
   <!-- SEO:END -->"""
 foot = f"""<!-- FOOT:BEGIN（由 tools/build_pages.py 自動產生） -->
     <footer class="site-foot">
@@ -328,5 +351,40 @@ for tag, block in (('SEO', seo), ('FOOT', foot)):
     h = pat.sub(lambda m: block, h, count=1)
 open('index.html', 'w', encoding='utf-8').write(h)
 
-print('完成：%d 個主題頁 + about/parents/privacy + sitemap.xml（%d 個網址）+ robots.txt；index.html 已更新（廣告：%s，聯絡信箱：%s）' %
-      (n_theme, len(urls), '啟用' if ADS else '未啟用', EMAIL or '未設定'))
+# ---------- PWA：manifest ----------
+manifest = {
+  "id": "./", "name": NAME, "short_name": SHORT, "description": home_desc, "lang": "zh-Hant",
+  "start_url": "./?source=pwa", "scope": "./", "display": "standalone", "orientation": "any",
+  "background_color": "#FFF6DD", "theme_color": "#FFF6DD", "categories": ["education", "kids", "games"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+  ],
+}
+write('manifest.webmanifest', json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+
+# ---------- 廣告設定（預設為 null＝完全不載入廣告） ----------
+ads_on = ADS and bool(ADS_CLIENT)
+write('ads-config.js', '/* 由 tools/build_pages.py 產生，請改 site.json */\nwindow.ADS_CONFIG = ' +
+      (json.dumps({"client": ADS_CLIENT, "slots": ADS_SLOTS}, ensure_ascii=False) if ads_on else 'null') + ';\n')
+if ads_on:
+    write('ads.txt', 'google.com, %s, DIRECT, f08c47fec0942fa0\n' % ADS_CLIENT.replace('ca-pub-', 'pub-'))
+elif os.path.exists('ads.txt'):
+    os.remove('ads.txt')
+
+# ---------- PWA：service worker（快取版本由檔案內容雜湊決定，內容一變就會自動更新） ----------
+def digest(paths):
+    h = hashlib.sha1()
+    for f in sorted(paths):
+        h.update(f.encode()); h.update(open(f, 'rb').read())
+    return h.hexdigest()[:10]
+shell = ['index.html', 'about.html', 'parents.html', 'privacy.html', 'style.css', 'pages.css', 'app.js', 'images.js', 'ads.js',
+         'ads-config.js', 'manifest.webmanifest'] + sorted(glob.glob('c/*.html')) + sorted(glob.glob('icons/*.png')) + ['icons/icon.svg']
+sw = open('tools/sw.template.js', encoding='utf-8').read()
+sw = (sw.replace('__SHELL_VERSION__', digest(shell)).replace('__IMG_VERSION__', digest(glob.glob('images/*.svg')))
+        .replace('__SHELL_FILES__', json.dumps(['./'] + shell, ensure_ascii=False)))
+write('sw.js', sw)
+
+print('完成：%d 個主題頁 + about/parents/privacy + sitemap.xml（%d 個網址）+ robots.txt；index.html 已更新（廣告：%s，聯絡信箱：%s；PWA：manifest + sw.js，快取版本 %s）' %
+      (n_theme, len(urls), '啟用' if ads_on else '未啟用', EMAIL or '未設定', digest(shell)))

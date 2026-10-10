@@ -3,5 +3,14 @@
   "baseUrl": "https://fumudada1.github.io/page/",
   "contactEmail": "",
   "issuesUrl": "https://github.com/fumudada1/page/issues",
-  "adsEnabled": false
+  "adsEnabled": false,
+  "adsense": {
+    "client": "",
+    "slots": {
+      "home": "",
+      "category": "",
+      "theme": ""
+    }
+  },
+  "shortName": "啟蒙拼圖"
 }
