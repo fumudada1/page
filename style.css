@@ -106,3 +106,13 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .site-foot p { margin:.4em 0; }
 .site-foot a { color:#8a4a12; margin:0 6px; white-space:nowrap; }
 .noscript-msg { padding:16px; text-align:center; background:#fff; }
+
+/* 廣告位（預設隱藏；啟用後只出現在首頁與類別頁底部，離按鈕與圖片至少 28px，遊戲畫面不放） */
+.ad-slot { max-width:728px; margin:32px auto 8px; padding:6px; border-radius:12px; background:rgba(255,255,255,.55); overflow:hidden; text-align:center; }
+.ad-slot[hidden] { display:none !important; }
+.ad-label { font-size:.7rem; opacity:.55; margin-bottom:2px; }
+
+/* 設定裡的安裝／離線區 */
+.btn.wide { display:block; width:100%; margin:6px 0; font-size:1.05rem; height:auto; min-height:52px; padding:10px 14px; }
+.btn:disabled { opacity:.6; }
+.tip { margin:6px 0 2px; font-size:.9rem; line-height:1.6; opacity:.8; }
