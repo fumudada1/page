@@ -118,8 +118,6 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .tip { margin:6px 0 2px; font-size:.9rem; line-height:1.6; opacity:.8; }
 
 /* 每個畫面的右上角：首頁是 ⚙️ 設定，其他畫面一律是 🏠 回首頁 */
-#menu:not(.in-cat) #btnHomeMenu { display:none; }
-#menu.in-cat #btnSettings { display:none; }
 .bar .homeg { position:absolute; right:10px; top:2px; }
 .win .homew { position:absolute; top:12px; right:12px; width:56px; height:56px; padding:0; border-radius:50%; z-index:2; }
 @media (min-width: 720px) { .bar .homeg { top:6px; } }
