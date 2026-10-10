@@ -62,8 +62,13 @@
     CATS.forEach(function (c) {
       var n = indexesInCat(c.id).length, b = document.createElement('button');
       b.className = 'cat-card' + (c.id === 'new' ? ' new' : '');
-      b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
-                    '</span><span class="ct">' + n + ' 張</span></span>';
+      if (c.id === 'new') {
+        b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
+                      '<i class="pill">NEW</i></span><span class="ct">剛加入的新圖片・' + n + ' 張</span></span><span class="go" aria-hidden="true">›</span>';
+      } else {
+        b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
+                      '</span><span class="ct">' + n + ' 張</span></span>';
+      }
       b.onclick = function () { openCat(c.id); };
       box.appendChild(b);
     });

@@ -6,7 +6,7 @@
 /* 首頁的分類（名稱統一四個字）。圖片用 cat 對應；'new' 是「最新圖片」：取 seq（加入序號）最大的 NEW_COUNT 張 */
 window.PUZZLE_NEW_COUNT = 16;   // 最新圖片顯示幾張
 window.PUZZLE_CATEGORIES = [
-  { id: 'new',     icon: '🆕', name: '最新圖片' },
+  { id: 'new',     icon: '✨', name: '最新圖片' },
   { id: 'animal',  icon: '🐻', name: '可愛動物' },
   { id: 'fruit',   icon: '🍎', name: '水果甜點' },
   { id: 'nature',  icon: '🌻', name: '美麗自然' },

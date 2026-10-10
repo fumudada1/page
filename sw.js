@@ -5,7 +5,7 @@
  *  - 其他檔案：先上網抓最新版（確保更新），沒網路才用快取。
  *  - 版本號由檔案內容雜湊決定；內容一變，舊快取會自動清掉。
  */
-const SHELL_CACHE = 'puzzle-shell-85943459f5';
+const SHELL_CACHE = 'puzzle-shell-8ccb083d2b';
 const IMG_CACHE = 'puzzle-img-1292aaadd7';
 const SHELL_FILES = ["./", "index.html", "about.html", "parents.html", "privacy.html", "style.css", "pages.css", "app.js", "images.js", "ads.js", "ads-config.js", "manifest.webmanifest", "c/animal.html", "c/bug.html", "c/dino.html", "c/festival.html", "c/food.html", "c/fruit.html", "c/job.html", "c/learn.html", "c/life.html", "c/music.html", "c/nature.html", "c/ocean.html", "c/space.html", "c/sport.html", "c/story.html", "c/vehicle.html", "icons/apple-touch-icon.png", "icons/favicon-32.png", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/icon.svg"];
 
