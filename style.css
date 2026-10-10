@@ -116,3 +116,20 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .btn.wide { display:block; width:100%; margin:6px 0; font-size:1.05rem; height:auto; min-height:52px; padding:10px 14px; }
 .btn:disabled { opacity:.6; }
 .tip { margin:6px 0 2px; font-size:.9rem; line-height:1.6; opacity:.8; }
+
+/* 每個畫面的右上角：首頁是 ⚙️ 設定，其他畫面一律是 🏠 回首頁 */
+#menu:not(.in-cat) #btnHomeMenu { display:none; }
+#menu.in-cat #btnSettings { display:none; }
+.bar .homeg { position:absolute; right:10px; top:2px; }
+.win .homew { position:absolute; top:12px; right:12px; width:56px; height:56px; padding:0; border-radius:50%; z-index:2; }
+@media (min-width: 720px) { .bar .homeg { top:6px; } }
+/* 窄螢幕：把拼圖畫面上方按鈕縮小一點，才不會和右上角的 🏠 重疊 */
+@media (max-width: 420px) {
+  .bar { gap:8px 6px; }
+  .bar .btn { min-width:46px; height:46px; padding:0 8px; font-size:1.4rem; }
+}
+/* 類別頁標題兩側各留出按鈕的位置 */
+#catView h1 { margin-left:66px; margin-right:66px; }
+
+/* 按鈕列右側預留 🏠 的位置，內容在剩下的空間排版，不會蓋到它 */
+.bar { padding-right:76px; }
