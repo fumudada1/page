@@ -1,0 +1,36 @@
+/* 靜態內容頁（關於／家長須知／隱私權政策／各主題頁）專用樣式；遊戲本身用 style.css */
+:root { --bg:#FFF6DD; --ink:#4a3b2a; --pri:#FF8A3D; --pri2:#FFD43B; --card:#fff; --line:#e5d6ad; }
+* { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+body { margin:0; background:var(--bg); color:var(--ink); line-height:1.8; font-size:17px;
+  font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif; }
+a { color:#c2540a; }
+.wrap { max-width:860px; margin:0 auto; padding:0 18px; }
+.top { background:#fff; border-bottom:4px solid var(--pri2); }
+.top .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
+.brand { font-weight:800; font-size:1.2rem; text-decoration:none; color:var(--ink); }
+.top nav a { margin-left:14px; text-decoration:none; font-weight:700; color:var(--ink); }
+.crumbs { font-size:.9rem; opacity:.75; margin:14px 0 0; }
+.crumbs a { color:inherit; }
+h1 { font-size:clamp(1.6rem,6vw,2.3rem); line-height:1.3; margin:.6em 0 .3em; }
+h2 { font-size:1.35rem; margin:1.8em 0 .5em; padding-left:12px; border-left:6px solid var(--pri2); }
+p, li { margin:.4em 0; }
+.lead { font-size:1.12rem; }
+.note { background:#fff; border:2px dashed var(--line); border-radius:14px; padding:10px 14px; font-size:.95rem; }
+.cta { display:inline-block; margin:14px 0 6px; padding:14px 26px; border-radius:999px; background:var(--pri2);
+  border:4px solid var(--pri); color:var(--ink); font-weight:800; font-size:1.15rem; text-decoration:none; box-shadow:0 4px 0 var(--line); }
+.cta:active { transform:translateY(3px); box-shadow:none; }
+.grid { list-style:none; padding:0; margin:12px 0; display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:12px; }
+.grid a { display:block; background:var(--card); border-radius:16px; overflow:hidden; text-decoration:none; color:var(--ink); box-shadow:0 3px 0 var(--line); text-align:center; font-weight:700; }
+.grid img { width:100%; aspect-ratio:1; object-fit:cover; display:block; }
+.grid span { display:block; padding:6px 4px 8px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; padding:0; list-style:none; }
+.chips a { display:inline-block; padding:8px 14px; border-radius:999px; background:#fff; border:2px solid var(--line); text-decoration:none; color:var(--ink); font-weight:700; }
+table { border-collapse:collapse; width:100%; background:#fff; border-radius:12px; overflow:hidden; font-size:.95rem; }
+th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+th { background:#FFF0B8; }
+.faq dt { font-weight:800; margin-top:1em; }
+.faq dd { margin:.2em 0 0 0; }
+footer.foot { margin-top:48px; background:#fff; border-top:4px solid var(--pri2); padding:22px 0 30px; font-size:.95rem; }
+footer.foot a { margin-right:14px; }
+footer.foot p { margin:.5em 0; opacity:.85; }

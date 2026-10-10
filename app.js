@@ -335,4 +335,19 @@
   });
 
   buildHome();
+
+  // 網址直達：?cat=類別代號 開啟該類別；?img=圖片代號 直接開始拼（給搜尋結果與主題頁的連結使用）
+  (function () {
+    var q = {};
+    location.search.replace(/^\?/, '').split('&').forEach(function (p) {
+      var kv = p.split('=');
+      if (kv[0]) q[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1] || '');
+    });
+    if (q.img) {
+      for (var i = 0; i < IMAGES.length; i++) {
+        if (IMAGES[i].id === q.img) { openCat(IMAGES[i].cat); start(i); return; }
+      }
+    }
+    if (q.cat && CATS.some(function (c) { return c.id === q.cat; })) openCat(q.cat);
+  })();
 })();

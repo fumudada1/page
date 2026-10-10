@@ -100,3 +100,9 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .gear.back { right:auto; left:10px; }
 #catView h1 { min-height:44px; display:flex; align-items:center; justify-content:center; }
 #catView .gallery { margin-top:22px; }
+
+/* 首頁頁尾：主題連結與關於／家長須知／隱私權政策（遊戲畫面不顯示） */
+.site-foot { max-width:860px; margin:8px auto 40px; padding:16px 8px 0; border-top:3px dashed #e5d6ad; font-size:.85rem; line-height:1.9; opacity:.85; }
+.site-foot p { margin:.4em 0; }
+.site-foot a { color:#8a4a12; margin:0 6px; white-space:nowrap; }
+.noscript-msg { padding:16px; text-align:center; background:#fff; }
