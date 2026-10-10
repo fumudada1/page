@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 224 張）
+/* 圖片清單（每類 16 張、共 240 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -20,7 +20,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'job',     icon: '👷', name: '職業體驗' },
   { id: 'bug',     icon: '🐞', name: '野外昆蟲' },
   { id: 'food',    icon: '🍔', name: '好吃食物' },
-  { id: 'sport',   icon: '⚽', name: '運動遊戲' }
+  { id: 'sport',   icon: '⚽', name: '運動遊戲' },
+  { id: 'music',   icon: '🎵', name: '音樂樂器' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -261,5 +262,22 @@ window.PUZZLE_IMAGES = [
   { id: 'chess', seq: 221, cat: 'sport', name: '西洋棋', src: 'images/chess.svg', credit: '自製插圖 CC0' },
   { id: 'puzzlepiece', seq: 222, cat: 'sport', name: '拼圖', src: 'images/puzzlepiece.svg', credit: '自製插圖 CC0' },
   { id: 'yoyo', seq: 223, cat: 'sport', name: '溜溜球', src: 'images/yoyo.svg', credit: '自製插圖 CC0' },
-  { id: 'trophy', seq: 224, cat: 'sport', name: '獎盃', src: 'images/trophy.svg', credit: '自製插圖 CC0' }
+  { id: 'trophy', seq: 224, cat: 'sport', name: '獎盃', src: 'images/trophy.svg', credit: '自製插圖 CC0' },
+  /* music */
+  { id: 'piano', seq: 225, cat: 'music', name: '鋼琴', src: 'images/piano.svg', credit: '自製插圖 CC0' },
+  { id: 'guitar', seq: 226, cat: 'music', name: '吉他', src: 'images/guitar.svg', credit: '自製插圖 CC0' },
+  { id: 'violin', seq: 227, cat: 'music', name: '小提琴', src: 'images/violin.svg', credit: '自製插圖 CC0' },
+  { id: 'drum', seq: 228, cat: 'music', name: '鼓', src: 'images/drum.svg', credit: '自製插圖 CC0' },
+  { id: 'trumpet', seq: 229, cat: 'music', name: '小喇叭', src: 'images/trumpet.svg', credit: '自製插圖 CC0' },
+  { id: 'saxophone', seq: 230, cat: 'music', name: '薩克斯風', src: 'images/saxophone.svg', credit: '自製插圖 CC0' },
+  { id: 'flute', seq: 231, cat: 'music', name: '長笛', src: 'images/flute.svg', credit: '自製插圖 CC0' },
+  { id: 'harp', seq: 232, cat: 'music', name: '豎琴', src: 'images/harp.svg', credit: '自製插圖 CC0' },
+  { id: 'xylophone', seq: 233, cat: 'music', name: '木琴', src: 'images/xylophone.svg', credit: '自製插圖 CC0' },
+  { id: 'tambourine', seq: 234, cat: 'music', name: '鈴鼓', src: 'images/tambourine.svg', credit: '自製插圖 CC0' },
+  { id: 'ukulele', seq: 235, cat: 'music', name: '烏克麗麗', src: 'images/ukulele.svg', credit: '自製插圖 CC0' },
+  { id: 'maracas', seq: 236, cat: 'music', name: '沙鈴', src: 'images/maracas.svg', credit: '自製插圖 CC0' },
+  { id: 'harmonica', seq: 237, cat: 'music', name: '口琴', src: 'images/harmonica.svg', credit: '自製插圖 CC0' },
+  { id: 'microphone', seq: 238, cat: 'music', name: '麥克風', src: 'images/microphone.svg', credit: '自製插圖 CC0' },
+  { id: 'headphones', seq: 239, cat: 'music', name: '耳機', src: 'images/headphones.svg', credit: '自製插圖 CC0' },
+  { id: 'musicnotes', seq: 240, cat: 'music', name: '音符', src: 'images/musicnotes.svg', credit: '自製插圖 CC0' }
 ];
