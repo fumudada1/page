@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """由 images.js + site.json 產生靜態內容頁（給搜尋引擎與家長閱讀）。
 
-用法（在 puzzle/ 目錄執行）：  python3 tools/build_pages.py
-會產生／更新：about.html、parents.html、privacy.html、c/<類別>.html、sitemap.xml、robots.txt，
+用法（在專案根目錄執行）：  python3 tools/build_pages.py
+會產生／更新：about.html、parents.html、privacy.html、c/<類別>.html、sitemap.xml、robots.txt、puzzle/index.html（舊網址轉址），
 並更新 index.html 內 SEO:BEGIN~END 區塊。新增類別或圖片後重跑即可。
 設定在 site.json：網域 baseUrl、聯絡信箱 contactEmail、是否已啟用廣告 adsEnabled。
 """
@@ -284,6 +284,21 @@ urls = [('', '1.0')] + [('about.html', '0.5'), ('parents.html', '0.6'), ('privac
 write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
       ''.join('  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>\n' % (esc(BASE + u), TODAY, p) for u, p in urls) + '</urlset>\n')
 write('robots.txt', 'User-agent: *\nAllow: /\n\nSitemap: %ssitemap.xml\n' % BASE)
+
+# ---------- 舊網址轉址：拼圖原本放在 /puzzle/，搬到根目錄後讓舊連結（含 ?cat= ?img=）自動跳轉 ----------
+write('puzzle/index.html', f"""<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>{esc(NAME)}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{esc(BASE)}">
+<meta http-equiv="refresh" content="0; url=../">
+<script>location.replace('../' + location.search + location.hash);</script>
+</head>
+<body><p>網站已搬家，<a href="../">請按這裡前往「{esc(NAME)}」</a>。</p></body>
+</html>
+""")
 
 # ---------- 更新 index.html 的 SEO 區塊 ----------
 home_desc = '免費的幼兒拼圖遊戲：%d 個主題、%d 張可愛圖片，可選 9、12、16 片，支援拼圖形與方塊。適合 2～6 歲孩子認識動物、水果、交通工具、恐龍、宇宙等，免註冊、手機平板電腦都能玩。' % (n_theme, n_img)

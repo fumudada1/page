@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://fumudada1.github.io/page/puzzle/sitemap.xml
