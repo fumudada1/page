@@ -1,4 +1,4 @@
-/* 圖片清單（每類 16 張、共 208 張）
+/* 圖片清單（每類 16 張、共 224 張）
  * 想換成免費圖庫照片（Unsplash / Pixabay / Pexels）：
  * 下載後放進 images/ 資料夾，把 src 改成檔名即可。
  * 新增圖片：seq 填目前最大序號 + 1，就會自動出現在「最新圖片」。建議正方形、至少 800x800。
@@ -19,7 +19,8 @@ window.PUZZLE_CATEGORIES = [
   { id: 'ocean',   icon: '🐠', name: '海洋生物' },
   { id: 'job',     icon: '👷', name: '職業體驗' },
   { id: 'bug',     icon: '🐞', name: '野外昆蟲' },
-  { id: 'food',    icon: '🍔', name: '好吃食物' }
+  { id: 'food',    icon: '🍔', name: '好吃食物' },
+  { id: 'sport',   icon: '⚽', name: '運動遊戲' }
 ];
 
 window.PUZZLE_IMAGES = [
@@ -243,5 +244,22 @@ window.PUZZLE_IMAGES = [
   { id: 'popcorn', seq: 205, cat: 'food', name: '爆米花', src: 'images/popcorn.svg', credit: '自製插圖 CC0' },
   { id: 'drumstick', seq: 206, cat: 'food', name: '雞腿', src: 'images/drumstick.svg', credit: '自製插圖 CC0' },
   { id: 'carrot', seq: 207, cat: 'food', name: '紅蘿蔔', src: 'images/carrot.svg', credit: '自製插圖 CC0' },
-  { id: 'corn', seq: 208, cat: 'food', name: '玉米', src: 'images/corn.svg', credit: '自製插圖 CC0' }
+  { id: 'corn', seq: 208, cat: 'food', name: '玉米', src: 'images/corn.svg', credit: '自製插圖 CC0' },
+  /* sport */
+  { id: 'basketball', seq: 209, cat: 'sport', name: '籃球', src: 'images/basketball.svg', credit: '自製插圖 CC0' },
+  { id: 'baseball', seq: 210, cat: 'sport', name: '棒球', src: 'images/baseball.svg', credit: '自製插圖 CC0' },
+  { id: 'tennis', seq: 211, cat: 'sport', name: '網球', src: 'images/tennis.svg', credit: '自製插圖 CC0' },
+  { id: 'volleyball', seq: 212, cat: 'sport', name: '排球', src: 'images/volleyball.svg', credit: '自製插圖 CC0' },
+  { id: 'badminton', seq: 213, cat: 'sport', name: '羽毛球', src: 'images/badminton.svg', credit: '自製插圖 CC0' },
+  { id: 'bowling', seq: 214, cat: 'sport', name: '保齡球', src: 'images/bowling.svg', credit: '自製插圖 CC0' },
+  { id: 'kite', seq: 215, cat: 'sport', name: '風箏', src: 'images/kite.svg', credit: '自製插圖 CC0' },
+  { id: 'slide', seq: 216, cat: 'sport', name: '溜滑梯', src: 'images/slide.svg', credit: '自製插圖 CC0' },
+  { id: 'swing', seq: 217, cat: 'sport', name: '盪鞦韆', src: 'images/swing.svg', credit: '自製插圖 CC0' },
+  { id: 'jumprope', seq: 218, cat: 'sport', name: '跳繩', src: 'images/jumprope.svg', credit: '自製插圖 CC0' },
+  { id: 'skate', seq: 219, cat: 'sport', name: '溜冰鞋', src: 'images/skate.svg', credit: '自製插圖 CC0' },
+  { id: 'skateboard', seq: 220, cat: 'sport', name: '滑板', src: 'images/skateboard.svg', credit: '自製插圖 CC0' },
+  { id: 'chess', seq: 221, cat: 'sport', name: '西洋棋', src: 'images/chess.svg', credit: '自製插圖 CC0' },
+  { id: 'puzzlepiece', seq: 222, cat: 'sport', name: '拼圖', src: 'images/puzzlepiece.svg', credit: '自製插圖 CC0' },
+  { id: 'yoyo', seq: 223, cat: 'sport', name: '溜溜球', src: 'images/yoyo.svg', credit: '自製插圖 CC0' },
+  { id: 'trophy', seq: 224, cat: 'sport', name: '獎盃', src: 'images/trophy.svg', credit: '自製插圖 CC0' }
 ];
