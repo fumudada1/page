@@ -62,8 +62,13 @@
     CATS.forEach(function (c) {
       var n = indexesInCat(c.id).length, b = document.createElement('button');
       b.className = 'cat-card' + (c.id === 'new' ? ' new' : '');
-      b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
-                    '</span><span class="ct">' + n + ' 張</span></span>';
+      if (c.id === 'new') {
+        b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
+                      '<i class="pill">NEW</i></span><span class="ct">剛加入的新圖片・' + n + ' 張</span></span><span class="go" aria-hidden="true">›</span>';
+      } else {
+        b.innerHTML = '<span class="ico">' + c.icon + '</span><span class="txt"><span class="nm">' + c.name +
+                      '</span><span class="ct">' + n + ' 張</span></span>';
+      }
       b.onclick = function () { openCat(c.id); };
       box.appendChild(b);
     });
@@ -96,13 +101,20 @@
       gal.appendChild(b);
     });
     $('homeView').classList.add('hidden'); $('catView').classList.remove('hidden');
-    menu.classList.add('in-cat');       // 類別頁：右上角顯示 🏠（設定鈕只在首頁）
+    setCatChrome(true);                 // 類別頁：右上角顯示 🏠（設定鈕只在首頁）
     menu.scrollTop = 0;
     if (window.PuzzleAds) PuzzleAds.show('category');
   }
+  // 右上角：首頁 = ⚙️ 設定；類別頁 = 🏠。用 hidden 屬性由程式決定，
+  // 這樣即使瀏覽器暫時拿到舊版樣式檔（更新途中的新舊混搭），也不會出現兩顆按鈕疊在一起。
+  function setCatChrome(inCat) {
+    menu.classList.toggle('in-cat', inCat);
+    $('btnSettings').hidden = inCat;
+    $('btnHomeMenu').hidden = !inCat;
+  }
   function showHome() {
     $('catView').classList.add('hidden'); $('homeView').classList.remove('hidden');
-    menu.classList.remove('in-cat');
+    setCatChrome(false);
     menu.scrollTop = 0;
     if (window.PuzzleAds) PuzzleAds.show('home');
   }
@@ -115,6 +127,7 @@
   $('btnHomeMenu').onclick = showHome;
   $('btnHomeGame').onclick = goHome;
   $('btnHomeWin').onclick = goHome;
+  $('btnHomeGame').hidden = false; $('btnHomeWin').hidden = false;   // 事件都接好了才顯示
 
   $('btnSettings').onclick = function () { buildSettings(); refreshPwaRows(); $('settings').classList.remove('hidden'); };
   $('btnSettingsClose').onclick = function () { $('settings').classList.add('hidden'); };
@@ -354,7 +367,7 @@
   var deferredPrompt = null;
   var standalone = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
   var swOk = 'serviceWorker' in navigator && /^https?:$/.test(location.protocol);
-  if (swOk) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  if (swOk) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (reg) { reg.update(); }).catch(function () {}); });
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredPrompt = e; refreshPwaRows(); });
   window.addEventListener('appinstalled', function () { deferredPrompt = null; refreshPwaRows(); });
 

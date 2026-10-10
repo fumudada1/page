@@ -10,7 +10,8 @@ const IMG_CACHE = 'puzzle-img-__IMG_VERSION__';
 const SHELL_FILES = __SHELL_FILES__;
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL_FILES)).then(() => self.skipWaiting()));
+  // cache:'reload' 跳過瀏覽器的 HTTP 快取，確保預先快取的一定是這個版本的檔案（不會把舊檔存進新版快取）
+  e.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL_FILES.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -40,7 +41,8 @@ self.addEventListener('fetch', (e) => {
   }
 
   e.respondWith(                                               // 其他：網路優先，離線時退回快取
-    fetch(req).then((res) => {
+    // cache:'no-cache'：每次都向伺服器確認有沒有新版（沒變動只回 304、很省流量），避免拿到舊檔
+    fetch(req, { cache: 'no-cache' }).then((res) => {
       if (res.ok && !url.search) { const copy = res.clone(); caches.open(SHELL_CACHE).then((c) => c.put(req, copy)); }
       return res;
     }).catch(() => caches.match(req, { ignoreSearch: true }).then((hit) =>

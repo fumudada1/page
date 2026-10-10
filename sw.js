@@ -5,12 +5,13 @@
  *  - 其他檔案：先上網抓最新版（確保更新），沒網路才用快取。
  *  - 版本號由檔案內容雜湊決定；內容一變，舊快取會自動清掉。
  */
-const SHELL_CACHE = 'puzzle-shell-8887a9b287';
+const SHELL_CACHE = 'puzzle-shell-8ccb083d2b';
 const IMG_CACHE = 'puzzle-img-1292aaadd7';
 const SHELL_FILES = ["./", "index.html", "about.html", "parents.html", "privacy.html", "style.css", "pages.css", "app.js", "images.js", "ads.js", "ads-config.js", "manifest.webmanifest", "c/animal.html", "c/bug.html", "c/dino.html", "c/festival.html", "c/food.html", "c/fruit.html", "c/job.html", "c/learn.html", "c/life.html", "c/music.html", "c/nature.html", "c/ocean.html", "c/space.html", "c/sport.html", "c/story.html", "c/vehicle.html", "icons/apple-touch-icon.png", "icons/favicon-32.png", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "icons/icon.svg"];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL_FILES)).then(() => self.skipWaiting()));
+  // cache:'reload' 跳過瀏覽器的 HTTP 快取，確保預先快取的一定是這個版本的檔案（不會把舊檔存進新版快取）
+  e.waitUntil(caches.open(SHELL_CACHE).then((c) => c.addAll(SHELL_FILES.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -40,7 +41,8 @@ self.addEventListener('fetch', (e) => {
   }
 
   e.respondWith(                                               // 其他：網路優先，離線時退回快取
-    fetch(req).then((res) => {
+    // cache:'no-cache'：每次都向伺服器確認有沒有新版（沒變動只回 304、很省流量），避免拿到舊檔
+    fetch(req, { cache: 'no-cache' }).then((res) => {
       if (res.ok && !url.search) { const copy = res.clone(); caches.open(SHELL_CACHE).then((c) => c.put(req, copy)); }
       return res;
     }).catch(() => caches.match(req, { ignoreSearch: true }).then((hit) =>

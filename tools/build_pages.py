@@ -21,8 +21,21 @@ ADSENSE = cfg.get('adsense') or {}
 ADS_CLIENT = (ADSENSE.get('client') or '').strip()
 ADS_SLOTS = ADSENSE.get('slots') or {}
 import hashlib, glob
+
+def digest(paths):
+    h = hashlib.sha1()
+    for f in sorted(paths):
+        h.update(f.encode()); h.update(open(f, 'rb').read())
+    return h.hexdigest()[:10]
 TODAY = datetime.date.today().isoformat()
 esc = html.escape
+
+# ---------- 廣告設定（要先產生，因為版本號會用到）；預設為 null＝完全不載入廣告 ----------
+ads_on = ADS and bool(ADS_CLIENT)
+open('ads-config.js', 'w', encoding='utf-8').write('/* 由 tools/build_pages.py 產生，請改 site.json */\nwindow.ADS_CONFIG = ' +
+      (json.dumps({"client": ADS_CLIENT, "slots": ADS_SLOTS}, ensure_ascii=False) if ads_on else 'null') + ';\n')
+# 資源版本號：網頁引用 CSS／JS 時附上 ?v=內容雜湊。檔案一變、網址就變，瀏覽器不會把新網頁配上舊樣式／舊程式。
+ASSET_VER = digest(['style.css', 'app.js', 'images.js', 'ads.js', 'ads-config.js', 'pages.css'])
 
 # ---------- 讀取分類與圖片 ----------
 js = open('images.js', encoding='utf-8').read()
@@ -145,7 +158,7 @@ def page(path, title, desc, body, crumbs=None, extra_head='', ad=None):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{esc(url)}">
-<link rel="stylesheet" href="{pre}pages.css">
+<link rel="stylesheet" href="{pre}pages.css?v={ASSET_VER}">
 {pwa_head(pre)}{extra_head}</head>
 <body>
 <header class="top"><div class="wrap">
@@ -159,8 +172,8 @@ def page(path, title, desc, body, crumbs=None, extra_head='', ad=None):
 {('<aside class="ad-slot" data-slot="%s" aria-label="廣告" hidden></aside>' % ad) if ad else ''}
 </main>
 {footer(pre)}
-<script src="{pre}ads-config.js"></script>
-<script src="{pre}ads.js"></script>
+<script src="{pre}ads-config.js?v={ASSET_VER}"></script>
+<script src="{pre}ads.js?v={ASSET_VER}"></script>
 </body>
 </html>
 """
@@ -350,6 +363,7 @@ for tag, block in (('SEO', seo), ('FOOT', foot)):
     pat = re.compile(r'<!-- %s:BEGIN.*?<!-- %s:END -->' % (tag, tag), re.S)
     assert pat.search(h), 'index.html 缺少 %s 標記' % tag
     h = pat.sub(lambda m: block, h, count=1)
+h = re.sub(r'(href|src)="(style\.css|app\.js|images\.js|ads\.js|ads-config\.js)(\?v=[0-9a-f]+)?"', lambda m: '%s="%s?v=%s"' % (m.group(1), m.group(2), ASSET_VER), h)
 open('index.html', 'w', encoding='utf-8').write(h)
 
 # ---------- PWA：manifest ----------
@@ -365,21 +379,12 @@ manifest = {
 }
 write('manifest.webmanifest', json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
 
-# ---------- 廣告設定（預設為 null＝完全不載入廣告） ----------
-ads_on = ADS and bool(ADS_CLIENT)
-write('ads-config.js', '/* 由 tools/build_pages.py 產生，請改 site.json */\nwindow.ADS_CONFIG = ' +
-      (json.dumps({"client": ADS_CLIENT, "slots": ADS_SLOTS}, ensure_ascii=False) if ads_on else 'null') + ';\n')
 if ads_on:
     write('ads.txt', 'google.com, %s, DIRECT, f08c47fec0942fa0\n' % ADS_CLIENT.replace('ca-pub-', 'pub-'))
 elif os.path.exists('ads.txt'):
     os.remove('ads.txt')
 
 # ---------- PWA：service worker（快取版本由檔案內容雜湊決定，內容一變就會自動更新） ----------
-def digest(paths):
-    h = hashlib.sha1()
-    for f in sorted(paths):
-        h.update(f.encode()); h.update(open(f, 'rb').read())
-    return h.hexdigest()[:10]
 shell = ['index.html', 'about.html', 'parents.html', 'privacy.html', 'style.css', 'pages.css', 'app.js', 'images.js', 'ads.js',
          'ads-config.js', 'manifest.webmanifest'] + sorted(glob.glob('c/*.html')) + sorted(glob.glob('icons/*.png')) + ['icons/icon.svg']
 sw = open('tools/sw.template.js', encoding='utf-8').read()

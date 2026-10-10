@@ -94,9 +94,6 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .cat-card .nm { font-size:1.3rem; font-weight:800; }
 .cat-card .ct { font-size:.9rem; opacity:.6; }
 .cat-card:active { transform: translateY(4px); box-shadow:none; }
-.cat-card.new { flex-basis:100%; flex-direction:row; gap:16px; min-height:96px; background:linear-gradient(135deg,#FFE27A,#FFC266); border-color:var(--pri); }
-.cat-card.new .ico { font-size:3rem; }
-.cat-card.new .txt { align-items:flex-start; }
 .gear.back { right:auto; left:10px; }
 #catView h1 { min-height:44px; display:flex; align-items:center; justify-content:center; }
 #catView .gallery { margin-top:22px; }
@@ -118,8 +115,6 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 .tip { margin:6px 0 2px; font-size:.9rem; line-height:1.6; opacity:.8; }
 
 /* 每個畫面的右上角：首頁是 ⚙️ 設定，其他畫面一律是 🏠 回首頁 */
-#menu:not(.in-cat) #btnHomeMenu { display:none; }
-#menu.in-cat #btnSettings { display:none; }
 .bar .homeg { position:absolute; right:10px; top:2px; }
 .win .homew { position:absolute; top:12px; right:12px; width:56px; height:56px; padding:0; border-radius:50%; z-index:2; }
 @media (min-width: 720px) { .bar .homeg { top:6px; } }
@@ -133,3 +128,19 @@ h2 { margin:18px 0 8px; font-size:1.2rem; }
 
 /* 按鈕列右側預留 🏠 的位置，內容在剩下的空間排版，不會蓋到它 */
 .bar { padding-right:76px; }
+
+/* 「最新圖片」橫幅：柔和的奶油黃底、白色圖示方塊、NEW 標籤與箭頭（不再用刺眼的橘黃漸層＋粗框） */
+.cat-card.new { flex-basis:100%; flex-direction:row; justify-content:flex-start; gap:14px; min-height:92px; padding:12px 18px; text-align:left;
+  position:relative; overflow:hidden; border:3px solid #FFD966; box-shadow:0 5px 0 #EBCB6B;
+  background:
+    radial-gradient(circle at 93% 18%, rgba(255,255,255,.85) 0 16px, transparent 17px),
+    radial-gradient(circle at 84% 82%, rgba(255,255,255,.55) 0 11px, transparent 12px),
+    linear-gradient(135deg, #FFF8DC 0%, #FFEDAE 100%); }
+.cat-card.new .ico { flex:0 0 auto; width:60px; height:60px; display:flex; align-items:center; justify-content:center;
+  font-size:2.1rem; line-height:1; background:#fff; border-radius:18px; box-shadow:0 3px 0 rgba(0,0,0,.08); }
+.cat-card.new .txt { align-items:flex-start; min-width:0; }
+.cat-card.new .nm { font-size:1.35rem; }
+.cat-card.new .ct { font-size:.85rem; opacity:.72; }
+.cat-card .pill { font-style:normal; font-size:.62rem; font-weight:800; letter-spacing:.06em; color:#fff; background:#FF7A2F;
+  padding:2px 8px; border-radius:999px; vertical-align:middle; margin-left:8px; position:relative; top:-2px; }
+.cat-card .go { margin-left:auto; padding-right:2px; font-size:2.2rem; font-weight:800; line-height:1; opacity:.4; }
