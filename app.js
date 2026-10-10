@@ -96,15 +96,25 @@
       gal.appendChild(b);
     });
     $('homeView').classList.add('hidden'); $('catView').classList.remove('hidden');
+    menu.classList.add('in-cat');       // 類別頁：右上角顯示 🏠（設定鈕只在首頁）
     menu.scrollTop = 0;
     if (window.PuzzleAds) PuzzleAds.show('category');
   }
   function showHome() {
     $('catView').classList.add('hidden'); $('homeView').classList.remove('hidden');
+    menu.classList.remove('in-cat');
     menu.scrollTop = 0;
     if (window.PuzzleAds) PuzzleAds.show('home');
   }
   $('btnCatBack').onclick = showHome;
+  // 回首頁：從任何畫面（類別頁、拼圖、完成畫面）一步回到首頁的主題列表
+  function goHome() {
+    win.classList.add('hidden'); game.classList.add('hidden'); menu.classList.remove('hidden');
+    showHome();
+  }
+  $('btnHomeMenu').onclick = showHome;
+  $('btnHomeGame').onclick = goHome;
+  $('btnHomeWin').onclick = goHome;
 
   $('btnSettings').onclick = function () { buildSettings(); refreshPwaRows(); $('settings').classList.remove('hidden'); };
   $('btnSettingsClose').onclick = function () { $('settings').classList.add('hidden'); };

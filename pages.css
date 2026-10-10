@@ -7,7 +7,7 @@ body { margin:0; background:var(--bg); color:var(--ink); line-height:1.8; font-s
 a { color:#c2540a; }
 .wrap { max-width:860px; margin:0 auto; padding:0 18px; }
 .top { background:#fff; border-bottom:4px solid var(--pri2); }
-.top .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
+.top .wrap { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
 .brand { font-weight:800; font-size:1.2rem; text-decoration:none; color:var(--ink); }
 .top nav a { margin-left:14px; text-decoration:none; font-weight:700; color:var(--ink); }
 .crumbs { font-size:.9rem; opacity:.75; margin:14px 0 0; }
@@ -39,3 +39,14 @@ footer.foot p { margin:.5em 0; opacity:.85; }
 .ad-slot { max-width:728px; margin:40px auto 0; padding:6px; border-radius:12px; background:rgba(255,255,255,.6); overflow:hidden; text-align:center; }
 .ad-slot[hidden] { display:none !important; }
 .ad-label { font-size:.7rem; opacity:.55; margin-bottom:2px; }
+
+/* 右上角的 🏠：寬螢幕時在最右邊；窄螢幕時留在第一行右側，導覽列掉到第二行 */
+.homeicon { order:3; width:46px; height:46px; display:flex; align-items:center; justify-content:center; border-radius:50%;
+  background:var(--pri2); border:3px solid var(--pri); font-size:1.5rem; text-decoration:none; box-shadow:0 3px 0 var(--line); }
+.homeicon:active { transform:translateY(3px); box-shadow:none; }
+.top nav { order:2; margin-left:auto; }
+@media (max-width: 600px) {
+  .homeicon { order:2; margin-left:auto; }
+  .top nav { order:3; flex-basis:100%; margin-left:0; }
+  .top nav a:first-child { margin-left:0; }
+}

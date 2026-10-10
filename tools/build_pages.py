@@ -151,6 +151,7 @@ def page(path, title, desc, body, crumbs=None, extra_head='', ad=None):
 <header class="top"><div class="wrap">
   <a class="brand" href="{pre}index.html">🧩 {esc(NAME)}</a>
   <nav><a href="{pre}index.html">開始玩</a><a href="{pre}parents.html">家長須知</a><a href="{pre}about.html">關於我們</a></nav>
+  <a class="homeicon" href="{pre}index.html" aria-label="回首頁" title="回首頁">🏠</a>
 </div></header>
 <main class="wrap">
 {crumb}
